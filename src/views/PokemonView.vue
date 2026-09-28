@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import AppButtonBack from '@/layout/AppButtonBack.vue'
+import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 import PokemonDetail from '../components/PokemonDetail.vue'
 import { ref } from 'vue'
 
@@ -12,7 +12,7 @@ const slotName = ref('title')
 
 <template>
   <main>
-    <AppButtonBack />
+    <BaseButtonBack />
     <PokemonDetail :id="(route.params.id as string)" istitle >
       <template #[slotName]>
         <h2 class="text-2xl font-bold mb-4">{{ $slots.title ? '' : 'Détails du Pokémon' }}</h2>

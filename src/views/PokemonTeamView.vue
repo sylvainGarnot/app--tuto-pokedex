@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import PokemonTeamDetail from '../components/PokemonTeamDetail.vue'
-import AppButtonBack from '@/layout/AppButtonBack.vue'
+import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 
 const route = useRoute()
 
@@ -9,7 +9,7 @@ const route = useRoute()
 
 <template>
   <main>
-    <AppButtonBack />
+    <BaseButtonBack />
     <PokemonTeamDetail
       v-if="route.params.id" 
       :id="(route.params.id as string)"

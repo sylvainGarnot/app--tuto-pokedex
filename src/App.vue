@@ -1,26 +1,15 @@
 <template>
-  <TheHeader />
-  <main id="main-content">
+  <DefaultLayout>
     <RouterView />
-  </main>
-  <TheFooter />
+  </DefaultLayout>
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import TheHeader from './layout/TheHeader.vue'
-import TheFooter from './layout/TheFooter.vue'
+import DefaultLayout from './layout/DefaultLayout.vue'
 </script>
 
 
 
 <style scoped lang="scss">
-#main-content {
-  padding: 2rem;
-  max-width: 1280px;
-  margin: 0 auto;
-  @media (max-width: 768px) {
-    padding: 1rem;
-  }
-}
 </style>

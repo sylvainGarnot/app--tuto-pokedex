@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import AppButtonBack from '@/layout/AppButtonBack.vue'
+import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 import PokemonSearchAdvanced from '../components/PokemonSearchAdvanced.vue'
 
 
@@ -11,7 +11,7 @@ const router = useRouter()
 
 <template>
   <main>
-    <AppButtonBack />
+    <BaseButtonBack />
     <h1>Recherche avancée</h1>
     <PokemonSearchAdvanced 
       :type1="route.query.type1 ? route.query.type1 as string : ''" 
