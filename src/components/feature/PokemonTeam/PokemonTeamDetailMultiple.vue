@@ -16,7 +16,7 @@ defineProps<{
       <RouterLink
         v-for="team in teams"
         :key="team.id"
-        :to="{ name: 'teamDetailHome', params: { id: team.id } }"
+        :to="{ name: 'team-detail-home', params: { id: team.id } }"
         class="team-card"
       >
         <div class="team-header">
@@ -29,6 +29,7 @@ defineProps<{
             :pokemon="pokemon"
             no-id
             no-title
+            small
           />
         </div>
       </RouterLink>

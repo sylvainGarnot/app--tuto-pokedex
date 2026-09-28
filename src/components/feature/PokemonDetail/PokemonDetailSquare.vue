@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import type { Pokemon } from '@/types/pokemon'
 
 defineProps<{
@@ -11,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <RouterLink :to="`/pokemon/${pokemon.id}`" class="pokemon-item" :class="{ small : small }">
+  <RouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-item" :class="{ 'container-small': small }">
     <span v-if="!noId" class="pokemon-id">{{ pokemon.id }}</span>
     <span v-if="!noTitle" class="pokemon-name">{{ pokemon.name }}</span>
     <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
@@ -34,7 +33,21 @@ defineProps<{
   cursor: pointer;
   border: 1px solid #eee;
   transition: transform 0.2s ease;
+}
+
+.pokemon-sprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pokemon-item.container-small {
   width: 25px;
+}
+
+.pokemon-item.container-small .pokemon-sprite {
+  width: 250%;
+  height: 250%;
 }
 
 .pokemon-item:hover {
@@ -55,9 +68,4 @@ defineProps<{
   text-transform: capitalize;
 }
 
-.pokemon-sprite {
-  width: 250%;
-  height: 250%;
-  object-fit: contain;
-}
 </style>

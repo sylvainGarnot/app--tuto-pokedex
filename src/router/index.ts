@@ -15,7 +15,7 @@ const router = createRouter({
     },
     {
       path: '/search-advanced',
-      name: 'SearchAdvancedView',
+      name: 'search-advanced',
       component: () => import('../views/SearchAdvancedView.vue'),
     },
     {
@@ -29,17 +29,17 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'createTeamName',
+          name: 'create-team-home',
           component: () => import('../views/CreateTeamView/NameView.vue'),
         },
         {
           path: 'add-pokemon',
-          name: 'createTeamAddPokemon',
+          name: 'create-team-add-pokemons',
           component: () => import('../views/CreateTeamView/PokemonsView.vue'),
         },
         {
           path: 'resume',
-          name: 'createTeamResume',
+          name: 'create-team-resume',
           component: () => import('../views/CreateTeamView/ResumeView.vue'),
         },
       ],
@@ -50,7 +50,7 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'teamHome',
+          name: 'team-home',
           component: () => import('../views/TeamView/HomeView.vue'),
         },
         {
@@ -59,12 +59,12 @@ const router = createRouter({
           children: [
             {
               path: '',
-              name: 'teamDetailHome',
+              name: 'team-detail-home',
               component: () => import('../views/TeamView/_Id/HomeView.vue'),
             },
             {
               path: 'update',
-              name: 'teamUpdate',
+              name: 'team-update',
               component: () => import('../views/TeamView/_Id/UpdateView.vue'),
             },
           ]

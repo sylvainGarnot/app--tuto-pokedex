@@ -1,9 +1,10 @@
 <template>
   <header>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/search">Recherche</RouterLink>
-      <RouterLink to="/search-advanced">Recherche Avancée</RouterLink>
+      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
+      <RouterLink :to="{ name: 'search' }">Recherche</RouterLink>
+      <RouterLink :to="{ name: 'search-advanced' }">Recherche Avancée</RouterLink>
+      <RouterLink :to="{ name: 'create-team-home' }">Créer Équipe</RouterLink>
     </nav>
   </header>
 </template>

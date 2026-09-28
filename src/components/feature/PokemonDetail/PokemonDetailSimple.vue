@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { RouterLink } from 'vue-router'
 import type { Pokemon } from '@/types/pokemon'
 import { useTypeStore } from '@/stores/typeStore'
 
@@ -23,7 +22,7 @@ function getTypeIcon(name: string) {
 
 <template>
   <div v-if="pokemon" class="result">
-    <RouterLink :to="`/pokemon/${pokemon.id}`" class="pokemon-card-link">
+    <RouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-card-link">
       <div class="pokemon-card">
         <span class="pokemon-id">{{ pokemon.id }}</span>
         <span class="pokemon-name">{{ pokemon.name }}</span>
