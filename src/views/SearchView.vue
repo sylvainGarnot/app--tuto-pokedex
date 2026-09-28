@@ -1,10 +1,24 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import type { Pokemon } from '@/types/pokemon'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
-import PokemonSearchSimple from '../components/PokemonSearchSimple.vue'
+import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
+import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 
 const route = useRoute()
 const router = useRouter()
+
+
+// DATA
+const pokemonResult = ref<Pokemon | null>(null)
+
+
+// FUNCTIONS
+function handleSearch(newResult: Pokemon | null) {
+  pokemonResult.value = newResult
+  router.push({ query: { name: pokemonResult.value ? pokemonResult.value.name : '' } })
+}
 
 </script>
 
@@ -12,11 +26,14 @@ const router = useRouter()
   <main>
     <BaseButtonBack />
     <h1>Recherche Pokémon</h1>
-    <PokemonSearchSimple 
-      :id="(route.query.id as string)" 
+    <PokemonSearch
+      :id="(route.query.id as string)"
       :name="(route.query.name as string)"
-      @update:name="(input: string) => router.push({ query: { name: input } })"
-    />
+      @search="(event) => { handleSearch(event) }" />
+
+    <PokemonDetailSimple
+      v-if="pokemonResult && pokemonResult.id"
+      :pokemon="pokemonResult" />
   </main>
 </template>
 

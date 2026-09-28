@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/teamStore'
-import PokemonTeamDetail from '@/components/PokemonTeamDetail.vue'
+import PokemonTeamDetail from '@/components/feature/PokemonTeam/PokemonTeamDetail.vue'
 
 const router = useRouter()
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Pokemon } from '../types/pokemon'
-import PokemonSearchAdvancedSearchByType from './PokemonSearchAdvancedSearchByType.vue'
-import PokemonSearchAdvancedSearchByGen from './PokemonSearchAdvancedSearchByGen.vue'
-import PokemonSearchAdvancedResult from './PokemonSearchAdvancedResult.vue'
+import type { Pokemon } from '@/types/pokemon'
+import PokemonSearchAdvancedSearchByType from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvancedSearchByType.vue'
+import PokemonSearchAdvancedSearchByGen from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvancedSearchByGen.vue'
+import PokemonSearchAdvancedResult from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvancedResult.vue'
 
 
 // PROPS

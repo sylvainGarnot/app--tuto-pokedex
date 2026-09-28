@@ -1,63 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { createEmptyPokemon, type Pokemon } from '../types/pokemon'
-import { useTeamStore } from '../stores/teamStore'
-import { getPokemon } from '@/composables/usePokemon'
-const teamStore = useTeamStore()
+import type { Pokemon } from '@/types/pokemon'
 
 
 // PROPS
-const props = defineProps<{
-  id: string
+defineProps<{
+  pokemon: Pokemon | null
+  loading: boolean
+  error: string
 }>()
-
-
-// REF
-const pokemon = ref<Pokemon | null>(createEmptyPokemon())
-const loading = ref(true)
-const error = ref('')
-
-
-// MOUNTED
-onMounted(async () => {
-  pokemon.value = await apiGetPokemon()
-})
-
-
-// FUNCTION
-async function apiGetPokemon(): Promise<Pokemon | null> {
-  loading.value = true
-
-  // recherche dans le store
-  for (const team of teamStore.teams) {
-    const foundInTeam = team.pokemons.find((p: Pokemon) => p.id.toString() === props.id)
-    if (foundInTeam) {
-      console.log('TEST - Pokemon trouvé dans le store:', foundInTeam.name)
-      loading.value = false
-      return foundInTeam as Pokemon
-    }
-  }
-
-  // Si non trouvé dans le store, fetch depuis l'API
-  return getPokemon(props.id)
-    .catch((err) => {
-      error.value = 'Erreur lors du chargement du Pokémon'
-      console.error('Erreur:', err)
-      return null
-    })
-    .finally(() => {
-      loading.value = false
-    })
-}
 </script>
 
 <template>
-
-  <div v-if="$slots.title" class="product-title" >
-    <slot name="title">
-    </slot>
-  </div>
-
   <div v-if="loading" class="loading">Chargement...</div>
 
   <div v-if="error" class="error">{{ error }}</div>

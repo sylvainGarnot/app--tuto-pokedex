@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import type { Pokemon } from '../types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
 
 defineProps<{
   pokemons: Pokemon[]

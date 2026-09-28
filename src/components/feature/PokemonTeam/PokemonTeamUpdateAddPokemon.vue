@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
-import PokemonSearchSimple from '@/components/PokemonSearchSimple.vue'
-import PokemonSearchSimpleResult from '@/components/PokemonSearchSimpleResult.vue'
+import PokemonSearchSimple from '@/components/feature/PokemonSearch/PokemonSearchSimple.vue'
+import PokemonSearchSimpleResult from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import type { Pokemon, PokemonTeam } from '@/types/pokemon'
 
 const teamStore = useTeamStore()

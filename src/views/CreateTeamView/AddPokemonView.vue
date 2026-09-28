@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PokemonTeamUpdateAddPokemon from '@/components/PokemonTeamUpdateAddPokemon.vue'
+import PokemonTeamUpdateAddPokemon from '@/components/feature/PokemonTeam/PokemonTeamUpdateAddPokemon.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 </script>

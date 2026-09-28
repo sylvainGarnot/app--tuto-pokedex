@@ -1,33 +1,58 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
-import PokemonDetail from '../components/PokemonDetail.vue'
-import { ref } from 'vue'
+import PokemonDetail from '@/components/feature/PokemonDetail/PokemonDetail.vue'
+import { createEmptyPokemon, type Pokemon } from '@/types/pokemon'
+import { useTeamStore } from '@/stores/teamStore'
+import { getPokemon } from '@/composables/usePokemon'
 
 const route = useRoute()
+const teamStore = useTeamStore()
 
-const slotName = ref('title')
+const pokemon = ref<Pokemon | null>(createEmptyPokemon())
+const loading = ref(true)
+const error = ref('')
 
+
+// MOUNTED
+onMounted(async () => {
+  pokemon.value = await apiGetPokemon()
+})
+
+
+// FUNCTION
+async function apiGetPokemon(): Promise<Pokemon | null> {
+  loading.value = true
+
+  const id = route.params.id as string
+
+  // recherche dans le store
+  for (const team of teamStore.teams) {
+    const foundInTeam = team.pokemons.find((p: Pokemon) => p.id.toString() === id)
+    if (foundInTeam) {
+      loading.value = false
+      return foundInTeam as Pokemon
+    }
+  }
+
+  // Si non trouvé dans le store, fetch depuis l'API
+  return getPokemon(id)
+    .catch((err) => {
+      error.value = 'Erreur lors du chargement du Pokémon'
+      console.error('Erreur:', err)
+      return null
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 </script>
 
 <template>
   <main>
     <BaseButtonBack />
-    <PokemonDetail :id="(route.params.id as string)" istitle >
-      <template #[slotName]>
-        <h2 class="text-2xl font-bold mb-4">{{ $slots.title ? '' : 'Détails du Pokémon' }}</h2>
-      </template>
-
-
-
-      <template #footer>
-        <div class="p-4 border-t">
-          <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-            button test
-          </button>
-        </div>
-      </template>
-
+    <PokemonDetail :pokemon="pokemon" :loading="loading" :error="error" istitle >
     </PokemonDetail>
   </main>
 </template>

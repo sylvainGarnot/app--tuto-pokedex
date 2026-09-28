@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { toPokemon, type Pokemon } from '../types/pokemon'
+import { toPokemon, type Pokemon } from '@/types/pokemon'
 import { POKEAPI_URL } from '@/constant';
 
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import PokemonTeamDetail from '../components/PokemonTeamDetail.vue'
+import PokemonTeamDetail from '@/components/feature/PokemonTeam/PokemonTeamDetail.vue'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 
 const route = useRoute()

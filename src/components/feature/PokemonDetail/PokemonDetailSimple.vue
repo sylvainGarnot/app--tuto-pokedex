@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import type { Pokemon } from '../types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
 
 defineProps<{
   pokemon: Pokemon | null
@@ -13,7 +13,7 @@ defineProps<{
       <div class="pokemon-card">
         <span class="pokemon-id">{{ pokemon.id }}</span>
         <span class="pokemon-name">{{ pokemon.name }}</span>
-        <img v-if="pokemon.sprite" :src="pokemon.sprite" :alt="pokemon.name" class="pokemon-sprite" />
+        <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
         <div v-if="pokemon.types && pokemon.types.length > 0" class="types-icons">
           <img v-for="type in pokemon.types" :key="type.name" :src="type.image" :alt="type.name" class="type-icon" />
         </div>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { formatDate } from '../utils/dateFormatter'
-import type { PokemonTeam } from '../types/pokemon'
-import PokemonSearchSimpleResult from './PokemonSearchSimpleResult.vue'
-import { useTeamStore } from '../stores/teamStore'
+import { formatDate } from '@/utils/dateFormatter'
+import type { PokemonTeam } from '@/types/pokemon'
+import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
+import { useTeamStore } from '@/stores/teamStore'
 
 
 // PROPS
@@ -59,7 +59,7 @@ onMounted(() => {
         </div>
 
         <div v-for="pokemon in currentTeam.pokemons" :key="pokemon.id" class="pokemon-wrapper">
-          <PokemonSearchSimpleResult :pokemon="pokemon" />
+          <PokemonDetailSimple :pokemon="pokemon" />
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PokemonTeamUpdateName from '@/components/PokemonTeamUpdateName.vue'
+import PokemonTeamUpdateName from '@/components/feature/PokemonTeam/PokemonTeamUpdateName.vue'
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/teamStore'

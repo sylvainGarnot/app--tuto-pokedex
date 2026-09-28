@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import type { Pokemon } from '../types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 
 // DATA
@@ -50,17 +50,16 @@ watch(inputName, (newValue) => {
 
 // FONCTIONS
 function searchPokemon() {
-  const searchValue = inputId.value || inputName.value
   error.value = ''
 
-  if (!searchValue) {
+  if (!inputId.value && !inputName.value) {
     error.value = 'Veuillez entrer un ID ou un nom'
     return
   }
 
   loading.value = true
 
-  getPokemon(searchValue)
+  getPokemon(inputId.value || inputName.value)
     .then((result) => {
       emit('search', result)
     })

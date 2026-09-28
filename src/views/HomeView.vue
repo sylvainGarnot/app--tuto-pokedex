@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { onMounted } from 'vue'
-import { useTeamStore } from '../stores/teamStore'
-import PokemonTeamMultiple from '../components/PokemonTeamMultiple.vue'
+import { useTeamStore } from '@/stores/teamStore'
+import PokemonTeamMultiple from '@/components/feature/PokemonTeam/PokemonTeamMultiple.vue'
 
 const teamStore = useTeamStore()
 

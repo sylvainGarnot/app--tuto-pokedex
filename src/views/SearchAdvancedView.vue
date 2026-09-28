@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
-import PokemonSearchAdvanced from '../components/PokemonSearchAdvanced.vue'
+import PokemonSearchAdvanced from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvanced.vue'
 
 
 const route = useRoute()
