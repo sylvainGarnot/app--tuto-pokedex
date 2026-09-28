@@ -1,3 +1,4 @@
+import type { PokemonType } from '@/types/pokemonType'
 export interface Pokemon {
   id: number
   pokedexId: number
@@ -6,14 +7,6 @@ export interface Pokemon {
   weight: number
   sprites?: PokemonSprites
   types?: PokemonType[]
-}
-
-export interface PokemonType {
-  name: string
-  icons?: {
-    name_icon?: string
-    symbol_icon?: string
-  }
 }
 
 export interface PokemonSprites {
@@ -80,24 +73,4 @@ export function toPokemon(raw: {
         name: t.type!.name as string,
       })),
   } as Pokemon
-}
-
-export function toType(raw: {
-  name?: string,
-  sprites?: {
-    "generation-viii": {
-      "sword-shield": {
-        name_icon: string
-        symbol_icon: string
-      }
-    }
-  }
-}): PokemonType {
-  return {
-    name: raw.name ?? '',
-    icons: {
-      name_icon: raw.sprites?.["generation-viii"]?.["sword-shield"]?.name_icon ?? '',
-      symbol_icon: raw.sprites?.["generation-viii"]?.["sword-shield"]?.symbol_icon ?? '',
-    }
-  } as PokemonType
 }

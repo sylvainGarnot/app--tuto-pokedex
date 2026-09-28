@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import type { Pokemon } from '@/types/pokemon'
-import { useTypeStore } from '@/stores/typeStore'
+import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 
 
 // PROPS
@@ -11,16 +11,16 @@ defineProps<{
   error: string
 }>()
 
-const typeStore = useTypeStore()
+const pokemonTypeStore = usePokemonTypeStore()
 
 onMounted(() => {
-  if (typeStore.types.length === 0) {
-    typeStore.apiGetTypes()
+  if (pokemonTypeStore.types.length === 0) {
+    pokemonTypeStore.apiGetTypes()
   }
 })
 
 function getTypeIcons(name: string) {
-  return typeStore.types.find((type) => type.name === name)?.icons
+  return pokemonTypeStore.types.find((type) => type.name === name)?.icons
 }
 </script>
 

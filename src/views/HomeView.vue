@@ -2,17 +2,17 @@
 import { RouterLink } from 'vue-router'
 import { onMounted } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
-import { useTypeStore } from '@/stores/typeStore'
+import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import PokemonTeamDetailMultiple from '@/components/feature/PokemonTeam/PokemonTeamDetailMultiple.vue'
 
 const teamStore = useTeamStore()
-const typeStore = useTypeStore()
+const pokemonTypeStore = usePokemonTypeStore()
 
 onMounted(async () => {
   teamStore.apiGetTeams()
 
   console.log('Mounted HomeView, fetching teams...')
-  await typeStore.apiGetTypes()
+  await pokemonTypeStore.apiGetTypes()
 })
 </script>
 

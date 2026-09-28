@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
-import type { PokemonTeam, Pokemon, PokemonType } from '../types/pokemon'
+import type { PokemonTeam, Pokemon } from '@/types/pokemon'
+import type { PokemonType } from '@/types/pokemonType'
 
 export const useTeamStore = defineStore('team', () => {
 

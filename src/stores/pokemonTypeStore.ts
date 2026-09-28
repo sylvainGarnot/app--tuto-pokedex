@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { toType, type PokemonType } from '@/types/pokemon'
+import { toPokemonType, type PokemonType } from '@/types/pokemonType'
 import { POKEAPI_URL } from '@/constant'
 
-export const useTypeStore = defineStore('type', () => {
+export const usePokemonTypeStore = defineStore('pokemonType', () => {
 
   // STATE
   const types = ref<PokemonType[]>([])
@@ -20,10 +20,10 @@ export const useTypeStore = defineStore('type', () => {
 
         return await Promise.all(urls.map((url) => fetch(url).then((response) => response.json())))
       })
-      .then((typeDetails: Parameters<typeof toType>[0][]) =>
+      .then((typeDetails: Parameters<typeof toPokemonType>[0][]) =>
         typeDetails
           .filter((type) => type.name)
-          .map((type) => toType(type)),
+          .map((type) => toPokemonType(type)),
       )
       .catch((err) => {
         console.error('Erreur lors du chargement des types:', err)

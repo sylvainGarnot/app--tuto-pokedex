@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import type { Pokemon } from '@/types/pokemon'
-import { useTypeStore } from '@/stores/typeStore'
+import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant'
 
@@ -22,15 +22,15 @@ const emit = defineEmits<{
 
 
 // DATA
-const typeStore = useTypeStore()
+const pokemonTypeStore = usePokemonTypeStore()
 const loading = ref(false)
 const error = ref('')
 
 
 // ON MOUNTED
 onMounted(() => {
-  if (typeStore.types.length === 0) {
-    typeStore.apiGetTypes()
+  if (pokemonTypeStore.types.length === 0) {
+    pokemonTypeStore.apiGetTypes()
   }
 })
 
@@ -99,11 +99,11 @@ watch(() => props.type2, () => {
           class="search-input"
         >
           <option value="">Sélectionnez un type...</option>
-          <option v-for="pokemonType in typeStore.types" :key="pokemonType.name" :value="pokemonType.name">
+          <option v-for="pokemonType in pokemonTypeStore.types" :key="pokemonType.name" :value="pokemonType.name">
             {{ pokemonType.name }}
           </option>
         </select>
-        <img v-if="props.type1" :src="typeStore.types.find(t => t.name === props.type1)?.icons?.symbol_icon" :alt="props.type1" class="type-image" />
+        <img v-if="props.type1" :src="pokemonTypeStore.types.find(t => t.name === props.type1)?.icons?.symbol_icon" :alt="props.type1" class="type-image" />
       </div>
     </div>
     <div class="input-group">
@@ -117,11 +117,11 @@ watch(() => props.type2, () => {
           :disabled="!props.type1"
         >
           <option value="">Sélectionnez un type...</option>
-          <option v-for="pokemonType in typeStore.types" :key="pokemonType.name" :value="pokemonType.name">
+          <option v-for="pokemonType in pokemonTypeStore.types" :key="pokemonType.name" :value="pokemonType.name">
             {{ pokemonType.name }}
           </option>
         </select>
-        <img v-if="props.type2" :src="typeStore.types.find(t => t.name === props.type2)?.icons?.symbol_icon" :alt="props.type2" class="type-image" />
+        <img v-if="props.type2" :src="pokemonTypeStore.types.find(t => t.name === props.type2)?.icons?.symbol_icon" :alt="props.type2" class="type-image" />
       </div>
     </div>
     <div v-if="error" class="error">{{ error }}</div>
