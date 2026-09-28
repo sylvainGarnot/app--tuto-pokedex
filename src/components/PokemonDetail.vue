@@ -19,32 +19,32 @@ const error = ref('')
 
 
 // MOUNTED
-onMounted(() => {
-  pokemon.value = apiGetPokemon() as Pokemon | null
+onMounted(async () => {
+  pokemon.value = await apiGetPokemon()
 })
 
 
 // FUNCTION
-function apiGetPokemon() {
+async function apiGetPokemon(): Promise<Pokemon | null> {
   loading.value = true
 
   // recherche dans le store
   for (const team of teamStore.teams) {
     const foundInTeam = team.pokemons.find((p: Pokemon) => p.id.toString() === props.id)
     if (foundInTeam) {
-      console.log('Pokemon trouvé dans le store:', foundInTeam.name)
+      console.log('TEST - Pokemon trouvé dans le store:', foundInTeam.name)
       loading.value = false
       return foundInTeam as Pokemon
     }
   }
 
   // Si non trouvé dans le store, fetch depuis l'API
-  fetch(`${POKEAPI_URL}/pokemon/${props.id}`)
+  return fetch(`${POKEAPI_URL}/pokemon/${props.id}`)
     .then((response) => {
       return response.json()
     })
     .then((data) => {
-      console.log('Pokemon récupéré depuis l\'API:')
+      console.log('TEST - Pokémon trouvé dans l api', data)
       return toPokemon(data)
     })
     .catch((err) => {
@@ -72,16 +72,16 @@ function apiGetPokemon() {
   <div v-if="pokemon" class="pokemon-detail">
     <div class="pokemon-header">
       <div class="pokemon-image-section">
-        <img v-if="pokemon.sprite" :src="pokemon.sprite" :alt="pokemon.name" class="pokemon-image" />
+        <img v-if="pokemon.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-image" />
         <p v-else class="no-image">Pas d'image disponible</p>
       </div>
 
       <div class="pokemon-info">
         <p class="pokemon-id">Pokédex ID: {{ pokemon.pokedexId }}</p>
 
-        <div v-if="pokemon.sprite" class="sprite-section">
+        <div v-if="pokemon.sprites?.front_default" class="sprite-section">
           <h2>Sprite</h2>
-          <img :src="pokemon.sprite" :alt="pokemon.name" class="sprite" />
+          <img :src="pokemon.sprites.front_default" :alt="pokemon.name" class="sprite" />
         </div>
 
         <div class="types-section">

@@ -4,13 +4,20 @@ export interface Pokemon {
   name: string
   height: number
   weight: number
-  sprite: string
-  types: PokemonType[]
+  sprites?: PokemonSprites
+  types?: PokemonType[]
 }
 
 export interface PokemonType {
   name: string
   image?: string
+}
+
+export interface PokemonSprites {
+  front_default?: string | null,
+  back_default?: string | null,
+  front_shiny?: string | null,
+  back_shiny?: string | null,
 }
 
 export interface PokemonTeam {
@@ -29,37 +36,45 @@ export function createEmptyPokemon(): Pokemon {
     name: '',
     height: 0,
     weight: 0,
-    sprite: '',
-    types: [],
   }
 }
 
 // keep only the fields declared on Pokemon, discarding the rest of the PokeAPI response
 export function toPokemon(raw: {
-  id: number
-  name: string
-  height: number
-  weight: number
-  sprites: {
-    front_default: string | null
+  id?: number
+  name?: string
+  height?: number
+  weight?: number
+  sprites?: {
+    front_default?: string | null,
+    back_default?: string | null,
+    front_shiny?: string | null,
+    back_shiny?: string | null,
   }
-  types: {
-    slot: number
-    type: {
-      name: string
-      url: string
+  types?: {
+    slot?: number
+    type?: {
+      name?: string
+      url?: string
     }
   }[]
 }): Pokemon {
   return {
-    id: raw.id,
-    pokedexId: raw.id,
-    name: raw.name,
-    height: raw.height,
-    weight: raw.weight,
-    sprite: raw.sprites.front_default ?? '',
-    types: raw.types.map((t) => ({
-      name: t.type.name,
-    })),
-  }
+    id: raw.id ?? 0,
+    pokedexId: raw.id ?? 0,
+    name: raw.name ?? '',
+    height: raw.height ?? 0,
+    weight: raw.weight ?? 0,
+    sprites: {
+      front_default: raw.sprites?.front_default ?? null,
+      back_default: raw.sprites?.back_default ?? null,
+      front_shiny: raw.sprites?.front_shiny ?? null,
+      back_shiny: raw.sprites?.back_shiny ?? null,
+    },
+    types: (raw.types ?? [])
+      .filter((t) => t.type?.name)
+      .map((t) => ({
+        name: t.type!.name as string,
+      })),
+  } as Pokemon
 }
