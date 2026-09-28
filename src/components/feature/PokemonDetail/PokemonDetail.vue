@@ -6,7 +6,7 @@ import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 
 // PROPS
 defineProps<{
-  pokemon: PokemonInterface
+  pokemon: PokemonInterface | null
   loading: boolean
   error: string
 }>()
