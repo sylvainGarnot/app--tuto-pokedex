@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Pokemon, PokemonTeam } from '@/types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
+import type { TeamInterface } from '@/types/team'
 import { useTeamStore } from '@/stores/teamStore'
 
 const teamStore = useTeamStore()
@@ -44,7 +45,7 @@ function updateTeam() {
     ...currentTeam.value,
     name: teamName.value ? teamName.value : currentTeam.value?.name,
     subname: teamSubname.value ? teamSubname.value : currentTeam.value?.subname,
-  } as PokemonTeam)
+  } as TeamInterface)
   .then(() => {
     teamName.value = ''
     teamSubname.value = ''
@@ -66,7 +67,7 @@ function createTeam() {
     subname: teamSubname.value,
     pokemons: [] as Pokemon[],
     createdAt: new Date().toISOString(),
-  } as PokemonTeam)
+  } as TeamInterface)
   .then(() => {
     teamName.value = ''
     teamSubname.value = ''

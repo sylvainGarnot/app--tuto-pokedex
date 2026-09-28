@@ -1,18 +1,19 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
-import type { PokemonTeam, Pokemon } from '@/types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
 import type { PokemonType } from '@/types/pokemonType'
+import type { TeamInterface } from '@/types/team'
 
 export const useTeamStore = defineStore('team', () => {
 
   // STATE
-  const currentTeam = ref<PokemonTeam | null>(null)
-  const teams = ref<PokemonTeam[]>([])
+  const currentTeam = ref<TeamInterface | null>(null)
+  const teams = ref<TeamInterface[]>([])
 
 
   // FUNCTIONS
-  function setCurrentTeam(team: PokemonTeam) {
+  function setCurrentTeam(team: TeamInterface) {
     currentTeam.value = team
   }
 
@@ -30,7 +31,7 @@ export const useTeamStore = defineStore('team', () => {
     }
   }
 
-  function updateTeams(team: PokemonTeam) {
+  function updateTeams(team: TeamInterface) {
     if (currentTeam.value && currentTeam.value.id === team.id) {
       currentTeam.value = { ...team }
     }
@@ -78,14 +79,14 @@ export const useTeamStore = defineStore('team', () => {
               image: type.image,
             })),
           })),
-        } as PokemonTeam)
+        } as TeamInterface)
       })
       .catch(error => {
         console.error('Erreur:', error)
       })
   }
 
-  async function apiPostTeam(team: PokemonTeam) {
+  async function apiPostTeam(team: TeamInterface) {
     return axios.post('http://localhost:3000/teams', team)
       .then((response) => {
         console.log('Équipe créée avec succès:', response)
@@ -96,7 +97,7 @@ export const useTeamStore = defineStore('team', () => {
           subname: response.data.subname,
           pokemons: response.data.pokemons as Pokemon[],
           createdAt: response.data.createdAt,
-        } as PokemonTeam)
+        } as TeamInterface)
       })
       .catch(error => {
         console.error('Erreur:', error)
@@ -104,7 +105,7 @@ export const useTeamStore = defineStore('team', () => {
       })
   }
 
-  async function apiPutTeam(team: PokemonTeam) {
+  async function apiPutTeam(team: TeamInterface) {
     try {
       await fetch(`http://localhost:3000/teams/${team.id}`, {
         method: 'PUT',
@@ -113,7 +114,7 @@ export const useTeamStore = defineStore('team', () => {
         },
         body: JSON.stringify(team),
       })
-      updateTeams(team as PokemonTeam)
+      updateTeams(team as TeamInterface)
     } catch {
       // error handling
     } finally {

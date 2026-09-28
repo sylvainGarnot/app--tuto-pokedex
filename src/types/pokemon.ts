@@ -16,15 +16,6 @@ export interface PokemonSprites {
   back_shiny?: string,
 }
 
-export interface PokemonTeam {
-  id: string
-  name: string
-  subname?: string
-  pokemons: Pokemon[]
-  createdAt: string
-  updatedAt?: string
-}
-
 export function createEmptyPokemon(): Pokemon {
   return {
     id: 0,

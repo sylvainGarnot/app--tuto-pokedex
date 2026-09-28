@@ -3,7 +3,8 @@ import { computed, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
-import type { Pokemon, PokemonTeam } from '@/types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
+import type { TeamInterface } from '@/types/team'
 
 const teamStore = useTeamStore()
 
@@ -41,7 +42,7 @@ function addPokemonToTeam() {
   teamStore.apiPutTeam({
     ...currentTeam.value,
     pokemons: newTeamPokemons as Pokemon[],
-  } as PokemonTeam)
+  } as TeamInterface)
   .then(() => {
     alertMessage.value = `${searchResult?.value?.name} ajouté à l'équipe!`
   })
@@ -64,7 +65,7 @@ function removePokemon(pokemonId: number) {
   teamStore.apiPutTeam({
     ...currentTeam.value,
     pokemons: newTeamPokemons as Pokemon[],
-  } as PokemonTeam)
+  } as TeamInterface)
     .then(() => {
       alertMessage.value = `Pokémon retiré de l'équipe`
     })

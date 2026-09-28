@@ -2,7 +2,7 @@
 import { onMounted, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { formatDate } from '@/utils/dateFormatter'
-import type { PokemonTeam } from '@/types/pokemon'
+import type { TeamInterface } from '@/types/team'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import { useTeamStore } from '@/stores/teamStore'
 
@@ -21,9 +21,9 @@ const currentTeam = computed(() => teamStore.currentTeam)
 
 // MOUNTED
 onMounted(() => {
-  const foundTeam = teamStore.teams.find(t => t.id === props.id)
+  const foundTeam = teamStore.teams.find((t: TeamInterface) => t.id === props.id)
   if (foundTeam) {
-    teamStore.setCurrentTeam(foundTeam as PokemonTeam)
+    teamStore.setCurrentTeam(foundTeam as TeamInterface)
   } else {
     teamStore.apiGetTeam(props.id)
   }

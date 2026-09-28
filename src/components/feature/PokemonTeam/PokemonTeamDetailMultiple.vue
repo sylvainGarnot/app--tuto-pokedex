@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { PokemonTeam } from '@/types/pokemon'
+import type { TeamInterface } from '@/types/team'
 import PokemonDetailSquare from '@/components/feature/PokemonDetail/PokemonDetailSquare.vue'
 
 defineProps<{
-  teams: PokemonTeam[]
+  teams: TeamInterface[]
 }>()
 </script>
 
