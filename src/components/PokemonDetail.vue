@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { toPokemon, createEmptyPokemon, type Pokemon } from '../types/pokemon'
+import { createEmptyPokemon, type Pokemon } from '../types/pokemon'
 import { useTeamStore } from '../stores/teamStore'
-import { POKEAPI_URL } from '@/constant';
+import { getPokemon } from '@/composables/usePokemon'
 const teamStore = useTeamStore()
 
 
@@ -39,14 +39,7 @@ async function apiGetPokemon(): Promise<Pokemon | null> {
   }
 
   // Si non trouvé dans le store, fetch depuis l'API
-  return fetch(`${POKEAPI_URL}/pokemon/${props.id}`)
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      console.log('TEST - Pokémon trouvé dans l api', data)
-      return toPokemon(data)
-    })
+  return getPokemon(props.id)
     .catch((err) => {
       error.value = 'Erreur lors du chargement du Pokémon'
       console.error('Erreur:', err)

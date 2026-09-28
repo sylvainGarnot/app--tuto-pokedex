@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import { toPokemon, type Pokemon } from '../types/pokemon'
-import { POKEAPI_URL } from '@/constant';
+import type { Pokemon } from '../types/pokemon'
+import { getPokemon } from '@/composables/usePokemon'
 
 // DATA
 const inputId = ref('')
@@ -60,13 +60,9 @@ function searchPokemon() {
 
   loading.value = true
 
-  fetch(`${POKEAPI_URL}/pokemon/${searchValue}`)
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      const results: Pokemon = toPokemon(data)
-      emit('search', results)
+  getPokemon(searchValue)
+    .then((result) => {
+      emit('search', result)
     })
     .catch(() => {
       error.value = 'Erreur lors de la recherche'
