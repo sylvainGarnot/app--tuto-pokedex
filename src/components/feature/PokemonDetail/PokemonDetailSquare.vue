@@ -14,7 +14,7 @@ defineProps<{
       <RouterLink v-for="pokemon in pokemons" :key="pokemon.id" :to="`/pokemon/${pokemon.id}`" class="pokemon-item">
         <span class="pokemon-id">{{ pokemon.id }}</span>
         <span class="pokemon-name">{{ pokemon.name }}</span>
-        <img v-if="pokemon.sprite" :src="pokemon.sprite" :alt="pokemon.name" class="pokemon-sprite" />
+        <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
       </RouterLink>
     </div>
   </div>

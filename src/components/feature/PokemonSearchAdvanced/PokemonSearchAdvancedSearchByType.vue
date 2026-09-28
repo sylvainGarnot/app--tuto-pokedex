@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import type { Pokemon, PokemonType } from '@/types/pokemon'
-import { POKEAPI_URL } from '@/constant';
+import type { Pokemon } from '@/types/pokemon'
+import { useTypeStore } from '@/stores/typeStore'
+import { getPokemon } from '@/composables/usePokemon'
+import { POKEAPI_URL } from '@/constant'
+
 
 // PROPS
 const props = defineProps({
@@ -19,84 +22,57 @@ const emit = defineEmits<{
 
 
 // DATA
-const apiTypes = ref<PokemonType[]>([])
+const typeStore = useTypeStore()
 const loading = ref(false)
 const error = ref('')
 
 
 // ON MOUNTED
 onMounted(() => {
-  getApiTypes()
-  //   .then(() => {
-  //   if (props.type1) {
-  //     const foundType1 = apiTypes.value.find((t) => t.name.toLowerCase() === props.type1?.toLowerCase())
-  //     if (foundType1) emit('update:type1', foundType1.name)
-  //   }
-  //   if (props.type2) {
-  //     const foundType2 = apiTypes.value.find((t) => t.name.toLowerCase() === props.type2?.toLowerCase())
-  //     if (foundType2) emit('update:type2', foundType2.name)
-  //   }
-
-  //   if (props.type1 || props.type2) {
-  //     searchByType()
-  //   }
-  // })
+  if (typeStore.types.length === 0) {
+    typeStore.apiGetTypes()
+  }
 })
 
 
 // FUNCTIONS
-function getApiTypes() {
-  return fetch(`${POKEAPI_URL}/types`)
+
+function fetchTypePokemonNames(typeName: string): Promise<string[]> {
+  return fetch(`${POKEAPI_URL}/type/${typeName}`)
     .then((response) => response.json())
-    .then((data) => {
-      apiTypes.value = data
-    })
-    .catch((err) => {
-      console.error('Erreur lors du chargement des types:', err)
-    })
+    .then((data: { pokemon?: { pokemon?: { name?: string } }[] }) =>
+      (data.pokemon ?? [])
+        .map((entry) => entry.pokemon?.name)
+        .filter((name): name is string => Boolean(name)),
+    )
 }
 
-function searchByType() {
-  if (!props.type1 && !props.type2) {
+async function searchByType() {
+  if (!props.type1) {
     emit('search', [])
     return
   }
 
   loading.value = true
+  error.value = ''
 
-  let url: string
-  if (props.type1 && props.type2) {
-    url = `${POKEAPI_URL}/pokemon/types/${props.type1}/${props.type2}`
-  } else {
-    url = `${POKEAPI_URL}/pokemon/type/${props.type1}`
+  try {
+    let names = await fetchTypePokemonNames(props.type1)
+
+    if (props.type2) {
+      const names2 = await fetchTypePokemonNames(props.type2)
+      names = names.filter((name) => names2.includes(name))
+    }
+
+    const pokemons = await Promise.all(names.map((name) => getPokemon(name)))
+    emit('search', pokemons.filter((pokemon): pokemon is Pokemon => pokemon !== null))
+  } catch (err) {
+    error.value = 'Erreur lors de la recherche'
+    console.error('Erreur:', err)
+    emit('search', [])
+  } finally {
+    loading.value = false
   }
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      const result = [] as Pokemon[]
-      for (let index = 0; index < data.length; index++) {
-        result.push({
-            id: data[index].id || '',
-            pokedexId: data[index].pokedexId,
-            name: data[index].name,
-            image: data[index].image,
-            sprite: data[index].sprite,
-            types: data[index].apiTypes.map((type: PokemonType) => ({
-              name: type.name,
-              image: type.image,
-            })),
-          })         
-      }
-      emit('search', result)
-    })
-    .catch(() => {
-      error.value = 'Erreur lors de la recherche'
-      emit('search', [])
-    })
-    .finally(() => {
-      loading.value = false
-    })
 }
 
 
@@ -123,11 +99,11 @@ watch(() => props.type2, () => {
           class="search-input"
         >
           <option value="">Sélectionnez un type...</option>
-          <option v-for="type in apiTypes" :key="type.name" :value="type.name">
-            {{ type.name }}
+          <option v-for="pokemonType in typeStore.types" :key="pokemonType.name" :value="pokemonType.name">
+            {{ pokemonType.name }}
           </option>
         </select>
-        <img v-if="props.type1" :src="apiTypes.find(t => t.name === props.type1)?.image" :alt="props.type1" class="type-image" />
+        <img v-if="props.type1" :src="typeStore.types.find(t => t.name === props.type1)?.icons?.symbol_icon" :alt="props.type1" class="type-image" />
       </div>
     </div>
     <div class="input-group">
@@ -141,11 +117,11 @@ watch(() => props.type2, () => {
           :disabled="!props.type1"
         >
           <option value="">Sélectionnez un type...</option>
-          <option v-for="type in apiTypes" :key="type.name" :value="type.name">
-            {{ type.name }}
+          <option v-for="pokemonType in typeStore.types" :key="pokemonType.name" :value="pokemonType.name">
+            {{ pokemonType.name }}
           </option>
         </select>
-        <img v-if="props.type2" :src="apiTypes.find(t => t.name === props.type2)?.image" :alt="props.type2" class="type-image" />
+        <img v-if="props.type2" :src="typeStore.types.find(t => t.name === props.type2)?.icons?.symbol_icon" :alt="props.type2" class="type-image" />
       </div>
     </div>
     <div v-if="error" class="error">{{ error }}</div>
