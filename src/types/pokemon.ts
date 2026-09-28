@@ -17,10 +17,10 @@ export interface PokemonType {
 }
 
 export interface PokemonSprites {
-  front_default?: string | null,
-  back_default?: string | null,
-  front_shiny?: string | null,
-  back_shiny?: string | null,
+  front_default?: string,
+  back_default?: string,
+  front_shiny?: string,
+  back_shiny?: string,
 }
 
 export interface PokemonTeam {
@@ -49,10 +49,10 @@ export function toPokemon(raw: {
   height?: number
   weight?: number
   sprites?: {
-    front_default?: string | null,
-    back_default?: string | null,
-    front_shiny?: string | null,
-    back_shiny?: string | null,
+    front_default?: string,
+    back_default?: string,
+    front_shiny?: string,
+    back_shiny?: string,
   }
   types?: {
     slot?: number

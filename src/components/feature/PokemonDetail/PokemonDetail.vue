@@ -37,13 +37,29 @@ function getTypeIcons(name: string) {
       </div>
 
       <div class="pokemon-info">
-        <p class="pokemon-id">Pokédex ID: {{ pokemon.pokedexId }}</p>
 
-        <div v-if="pokemon.sprites?.front_default" class="sprite-section">
-          <h2>Sprite</h2>
-          <img :src="pokemon.sprites.front_default" :alt="pokemon.name" class="sprite" />
+        <!-- Basic Info Section -->
+        <div class="basic-info-section">
+          <div class="basic-info-item">
+            <span class="pokemon-id">Pokédex ID: {{ pokemon.pokedexId }}</span>
+          </div>
+          <div class="basic-info-item">
+            <span class="pokemon-height">Taille: {{ pokemon.height }}</span>
+          </div>
+          <div class="basic-info-item">
+            <span class="pokemon-weight">Poids: {{ pokemon.weight }}</span>
+          </div>
         </div>
 
+        <!-- Sprite Section -->
+        <div v-if="pokemon.sprites?.front_default" class="sprite-section">
+          <h2>Sprite</h2>
+          <img :src="pokemon.sprites.back_default" :alt="pokemon.name" class="sprite" />
+          <img :src="pokemon.sprites.front_shiny" :alt="pokemon.name" class="sprite" />
+          <img :src="pokemon.sprites.back_shiny" :alt="pokemon.name" class="sprite" />
+        </div>
+
+        <!-- type section -->
         <div class="types-section">
           <h2>Types</h2>
           <div class="types-list">
@@ -106,8 +122,8 @@ function getTypeIcons(name: string) {
 }
 
 .pokemon-image {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -131,6 +147,19 @@ function getTypeIcons(name: string) {
   font-size: 1rem;
   color: #666;
   margin-bottom: 1.5rem;
+}
+
+.basic-info-section {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.basic-info-item {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
 }
 
 .sprite-section {
