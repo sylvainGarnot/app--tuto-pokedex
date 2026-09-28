@@ -4,7 +4,7 @@
       <RouterLink :to="{ name: 'home' }">Home</RouterLink>
       <RouterLink :to="{ name: 'search' }">Recherche</RouterLink>
       <RouterLink :to="{ name: 'search-advanced' }">Recherche Avancée</RouterLink>
-      <RouterLink :to="{ name: 'create-team-home' }">Créer Équipe</RouterLink>
+      <RouterLink :to="{ name: 'team-create-home' }">Créer Équipe</RouterLink>
     </nav>
   </header>
 </template>

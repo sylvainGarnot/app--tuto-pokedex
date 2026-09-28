@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
-
 </script>
 
 <template>
   <main>
-    <BaseButtonBack />
-    <h1>Équipe</h1>
+    <h1>Créer une équipe</h1>
     <RouterView />
   </main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

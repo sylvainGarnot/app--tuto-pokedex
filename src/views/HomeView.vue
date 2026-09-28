@@ -25,7 +25,7 @@ onMounted(async () => {
         <div class="buttons">
           <RouterLink :to="{ name: 'search' }" class="btn">Recherche simple</RouterLink>
           <RouterLink :to="{ name: 'search-advanced' }" class="btn">Recherche avancée</RouterLink>
-          <RouterLink :to="{ name: 'create-team-home' }" class="btn btn-secondary">Créer une équipe</RouterLink>
+          <RouterLink :to="{ name: 'team-create-home' }" class="btn btn-secondary">Créer une équipe</RouterLink>
         </div>
       </div>
       <div class="right-section">

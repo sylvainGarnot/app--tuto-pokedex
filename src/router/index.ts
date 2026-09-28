@@ -24,27 +24,6 @@ const router = createRouter({
       component: () => import('../views/PokemonView.vue'),
     },
     {
-      path: '/create-team',
-      component: () => import('../views/CreateTeamView.vue'),
-      children: [
-        {
-          path: '',
-          name: 'create-team-home',
-          component: () => import('../views/CreateTeamView/NameView.vue'),
-        },
-        {
-          path: 'add-pokemon',
-          name: 'create-team-add-pokemons',
-          component: () => import('../views/CreateTeamView/PokemonsView.vue'),
-        },
-        {
-          path: 'resume',
-          name: 'create-team-resume',
-          component: () => import('../views/CreateTeamView/ResumeView.vue'),
-        },
-      ],
-    },
-    {
       path: '/team',
       component: () => import('../views/TeamView.vue'),
       children: [
@@ -66,6 +45,32 @@ const router = createRouter({
               path: 'update',
               name: 'team-update',
               component: () => import('../views/TeamView/_Id/UpdateView.vue'),
+            },
+          ]
+        },
+        {
+          path: 'create',
+          component: () => import('../views/TeamView/CreateView.vue'),
+          children: [
+            {
+              path: '',
+              name: 'team-create-home',
+              redirect: { name: 'team-create-add-name' }
+            },
+            {
+              path: 'add-name',
+              name: 'team-create-add-name',
+              component: () => import('../views/TeamView/Create/AddNameView.vue'),
+            },
+            {
+              path: 'add-pokemons',
+              name: 'team-create-add-pokemons',
+              component: () => import('../views/TeamView/Create/AddPokemonsView.vue'),
+            },
+            {
+              path: 'resume',
+              name: 'team-create-resume',
+              component: () => import('../views/TeamView/Create/ResumeView.vue'),
             },
           ]
         },

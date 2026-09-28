@@ -15,8 +15,7 @@ onMounted(() => {
 
 <template>
   <main>
-    <PokemonTeamEditName @team-created="router.push({ name: 'createTeamAddPokemon' })" :button-text="'Étape suivante'" />
-    
+    <PokemonTeamEditName @team-created="router.push({ name: 'team-create-add-pokemons' })" :button-text="'Étape suivante'" />
   </main>
 </template>
 

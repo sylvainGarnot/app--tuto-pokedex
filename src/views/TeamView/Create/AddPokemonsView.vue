@@ -9,7 +9,7 @@ const router = useRouter()
     <PokemonTeamEditPokemons />
 
     <div class="next-step">
-      <button @click="router.push({ name: 'createTeamResume' })" class="btn-primary">
+      <button @click="router.push({ name: 'team-create-resume' })" class="btn-primary">
         Étape suivante
       </button>
     </div>
