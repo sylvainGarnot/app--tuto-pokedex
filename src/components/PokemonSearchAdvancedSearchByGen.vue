@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import type { Pokemon, PokemonType } from '../types/pokemon'
+import { POKEAPI_URL } from '@/constant';
 
 
 // PROPS
@@ -52,7 +53,7 @@ function searchByGeneration() {
   error.value = ''
   emit('update:generation', selectedGeneration.value)
 
-  const url = `https://pokebuildapi.fr/api/v1/pokemon/generation/${selectedGeneration.value}`
+  const url = `${POKEAPI_URL}/pokemon/generation/${selectedGeneration.value}`
 
   fetch(url)
     .then((response) => response.json())

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import type { Pokemon, PokemonType } from '../types/pokemon'
+import type { Pokemon } from '../types/pokemon'
+import { POKEAPI_URL } from '@/constant';
 
 // DATA
 const inputId = ref('')
@@ -59,21 +60,22 @@ function searchPokemon() {
 
   loading.value = true
 
-  fetch(`https://pokebuildapi.fr/api/v1/pokemon/${searchValue}`)
+  fetch(`${POKEAPI_URL}/pokemon/${searchValue}`)
     .then((response) => {
       return response.json()
     })
     .then((data) => {
       const results: Pokemon = {
-        id: data.id,
-        pokedexId: data.pokedexId,
-        name: data.name,
-        image: data.image,
-        sprite: data.sprite,
-        types: data.apiTypes.map((type: PokemonType) => ({
-          name: type.name,
-          image: type.image,
-        })),
+        id: data?.id || '',
+        pokedexId: data?.id || '',
+        name: data?.name || '',
+        image: data?.sprites?.back_default || '',
+        sprite: data?.sprites?.front_shiny || '',
+        types: []
+        // types: data.types.map((type: PokemonType) => ({
+        //   name: type.name,
+        //   image: type.image,
+        // })),
       }
       emit('search', results)
     })

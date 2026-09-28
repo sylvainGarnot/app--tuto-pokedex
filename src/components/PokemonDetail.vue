@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import type { Pokemon, PokemonType } from '../types/pokemon'
 import { useTeamStore } from '../stores/teamStore'
+import { POKEAPI_URL } from '@/constant';
 const teamStore = useTeamStore()
 
 
@@ -45,7 +46,7 @@ function apiGetPokemon() {
   }
 
   // Si non trouvé dans le store, fetch depuis l'API
-  fetch(`https://pokebuildapi.fr/api/v1/pokemon/${props.id}`)
+  fetch(`${POKEAPI_URL}/pokemon/${props.id}`)
     .then((response) => {
       return response.json()
     })
@@ -60,8 +61,8 @@ function apiGetPokemon() {
         types: data.apiTypes.map((type: PokemonType) => ({
           name: type.name,
           image: type.image,
-        })),
-      }
+        })) as PokemonType[],
+      } as Pokemon
     })
     .catch((error) => {
       error.value = 'Erreur lors du chargement du Pokémon'
@@ -74,6 +75,12 @@ function apiGetPokemon() {
 </script>
 
 <template>
+
+  <div v-if="$slots.title" class="product-title" >
+    <slot name="title">
+    </slot>
+  </div>
+
   <div v-if="loading" class="loading">Chargement...</div>
 
   <div v-if="error" class="error">{{ error }}</div>
@@ -86,7 +93,6 @@ function apiGetPokemon() {
       </div>
 
       <div class="pokemon-info">
-        <h1>{{ pokemon.name }}</h1>
         <p class="pokemon-id">Pokédex ID: {{ pokemon.pokedexId }}</p>
 
         <div v-if="pokemon.sprite" class="sprite-section">
@@ -103,6 +109,11 @@ function apiGetPokemon() {
             </div>
           </div>
         </div>
+
+        <div class="product-footer">
+          <slot name="footer"></slot>
+        </div>
+
       </div>
     </div>
   </div>

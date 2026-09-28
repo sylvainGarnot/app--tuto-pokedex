@@ -42,7 +42,7 @@ function handleSearch(newResult: Pokemon | null) {
     <PokemonSearchSimpleSearch
       :id="props.id"
       :name="props.name"
-      @search="handleSearch" />
+      @search="(event) => { handleSearch(event) }" />
     <PokemonSearchSimpleResult
       v-if="result && result.id"
       :pokemon="result" />

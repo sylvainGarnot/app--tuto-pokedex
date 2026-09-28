@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import type { Pokemon, PokemonType } from '../types/pokemon'
-
+import { POKEAPI_URL } from '@/constant';
 
 // PROPS
 const props = defineProps({
@@ -46,7 +46,7 @@ onMounted(() => {
 
 // FUNCTIONS
 function getApiTypes() {
-  return fetch('https://pokebuildapi.fr/api/v1/types')
+  return fetch(`${POKEAPI_URL}/types`)
     .then((response) => response.json())
     .then((data) => {
       apiTypes.value = data
@@ -66,9 +66,9 @@ function searchByType() {
 
   let url: string
   if (props.type1 && props.type2) {
-    url = `https://pokebuildapi.fr/api/v1/pokemon/types/${props.type1}/${props.type2}`
+    url = `${POKEAPI_URL}/pokemon/types/${props.type1}/${props.type2}`
   } else {
-    url = `https://pokebuildapi.fr/api/v1/pokemon/type/${props.type1}`
+    url = `${POKEAPI_URL}/pokemon/type/${props.type1}`
   }
 
   fetch(url)
