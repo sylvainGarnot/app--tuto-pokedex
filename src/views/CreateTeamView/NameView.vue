@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PokemonTeamUpdateName from '@/components/feature/PokemonTeam/PokemonTeamUpdateName.vue'
+import PokemonTeamEditName from '@/components/feature/PokemonTeam/PokemonTeamEditName.vue'
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/teamStore'
@@ -15,7 +15,7 @@ onMounted(() => {
 
 <template>
   <main>
-    <PokemonTeamUpdateName @team-created="router.push({ name: 'createTeamAddPokemon' })" :button-text="'Étape suivante'" />
+    <PokemonTeamEditName @team-created="router.push({ name: 'createTeamAddPokemon' })" :button-text="'Étape suivante'" />
     
   </main>
 </template>

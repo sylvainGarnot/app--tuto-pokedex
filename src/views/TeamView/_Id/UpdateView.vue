@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/teamStore'
-import PokemonTeamUpdateName from '@/components/feature/PokemonTeam/PokemonTeamUpdateName.vue'
-import PokemonTeamUpdateAddPokemon from '@/components/feature/PokemonTeam/PokemonTeamUpdateAddPokemon.vue'
+import PokemonTeamEditName from '@/components/feature/PokemonTeam/PokemonTeamEditName.vue'
+import PokemonTeamEditPokemons from '@/components/feature/PokemonTeam/PokemonTeamEditPokemons.vue'
 
+const route = useRoute()
 const router = useRouter()
 const teamStore = useTeamStore()
 const currentTeam = computed(() => teamStore.currentTeam)
@@ -20,14 +21,19 @@ function deleteTeam() {
 </script>
 
 <template>
-  <div class="pokemon-team-update">
-    <PokemonTeamUpdateName :button-text="'Valider'" />
-    <PokemonTeamUpdateAddPokemon :button-text="'Valider'" />
-    
-    <button v-if="currentTeam" @click="deleteTeam" class="btn-delete">
-      Supprimer l'équipe
-    </button>
-  </div>
+  <main>
+    <div v-if="route.params.id" class="pokemon-team-update">
+      
+      <PokemonTeamEditName :button-text="'Valider'" />
+
+      <PokemonTeamEditPokemons :button-text="'Valider'" />
+
+      <button v-if="currentTeam" @click="deleteTeam" class="btn-delete">
+        Supprimer l'équipe
+      </button>
+      
+    </div>
+  </main>
 </template>
 
 <style scoped>

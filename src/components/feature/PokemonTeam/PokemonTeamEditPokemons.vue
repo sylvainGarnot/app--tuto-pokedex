@@ -87,7 +87,11 @@ function removePokemon(pokemonId: number) {
       <!-- Section recherche -->
       <div class="search-section">
         <h2>Ajouter un Pokémon</h2>
-        <PokemonSearch @update:result="handleSearchResult" />
+        
+        <PokemonSearch @search="handleSearchResult" />
+        
+        <PokemonDetailSimple v-if="searchResult" :pokemon="searchResult" />
+        
         <div v-if="alertMessage" class="alert-message" :class="{ success: alertMessage.includes('ajouté') }">
           {{ alertMessage }}
         </div>

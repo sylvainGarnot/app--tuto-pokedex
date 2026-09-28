@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import type { PokemonTeam } from '@/types/pokemon'
 
 defineProps<{
@@ -16,7 +15,7 @@ defineProps<{
       <RouterLink
         v-for="team in teams"
         :key="team.id"
-        :to="`/team/${team.id}`"
+        :to="{ name: 'teamDetailHome', params: { id: team.id } }"
         class="team-card"
       >
         <div class="team-header">

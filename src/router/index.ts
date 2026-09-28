@@ -1,14 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import SearchView from '../views/SearchView.vue'
-import SearchAdvancedView from '../views/SearchAdvancedView.vue'
-import PokemonView from '../views/PokemonView.vue'
-import CreateTeamView from '../views/CreateTeamView.vue'
-import CreateTeamNameView from '../views/CreateTeamView/NameView.vue'
-import CreateTeamAddPokemonView from '../views/CreateTeamView/AddPokemonView.vue'
-import CreateTeamResumeView from '../views/CreateTeamView/ResumeView.vue'
-import PokemonTeamView from '../views/PokemonTeamView.vue'
-import PokemonTeamUpdateView from '../views/PokemonTeamView/UpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,53 +6,70 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/HomeView.vue'),
     },
     {
       path: '/search',
       name: 'search',
-      component: SearchView,
+      component: () => import('../views/SearchView.vue'),
     },
     {
       path: '/search-advanced',
       name: 'SearchAdvancedView',
-      component: SearchAdvancedView,
+      component: () => import('../views/SearchAdvancedView.vue'),
     },
     {
       path: '/pokemon/:id',
       name: 'pokemon',
-      component: PokemonView,
+      component: () => import('../views/PokemonView.vue'),
     },
     {
       path: '/create-team',
-      component: CreateTeamView,
+      component: () => import('../views/CreateTeamView.vue'),
       children: [
         {
           path: '',
           name: 'createTeamName',
-          component: CreateTeamNameView,
+          component: () => import('../views/CreateTeamView/NameView.vue'),
         },
         {
           path: 'add-pokemon',
           name: 'createTeamAddPokemon',
-          component: CreateTeamAddPokemonView,
+          component: () => import('../views/CreateTeamView/PokemonsView.vue'),
         },
         {
           path: 'resume',
           name: 'createTeamResume',
-          component: CreateTeamResumeView,
+          component: () => import('../views/CreateTeamView/ResumeView.vue'),
         },
       ],
     },
     {
-      path: '/team/:id',
-      name: 'teamDetail',
-      component: PokemonTeamView,
-    },
-    {
-      path: '/team/:id/update',
-      name: 'teamUpdate',
-      component: PokemonTeamUpdateView,
+      path: '/team',
+      component: () => import('../views/TeamView.vue'),
+      children: [
+        {
+          path: '',
+          name: 'teamHome',
+          component: () => import('../views/TeamView/HomeView.vue'),
+        },
+        {
+          path: ':id',
+          component: () => import('../views/TeamView/_Id.vue'),
+          children: [
+            {
+              path: '',
+              name: 'teamDetailHome',
+              component: () => import('../views/TeamView/_Id/HomeView.vue'),
+            },
+            {
+              path: 'update',
+              name: 'teamUpdate',
+              component: () => import('../views/TeamView/_Id/UpdateView.vue'),
+            },
+          ]
+        },
+      ],
     },
   ],
 })
