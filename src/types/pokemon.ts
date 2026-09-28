@@ -1,4 +1,5 @@
-import type { PokemonType } from '@/types/pokemonType'
+import type { PokemonTypeInterface } from '@/types/pokemonType'
+
 export interface Pokemon {
   id: number
   pokedexId: number
@@ -6,7 +7,7 @@ export interface Pokemon {
   height: number
   weight: number
   sprites?: PokemonSprites
-  types?: PokemonType[]
+  types?: PokemonTypeInterface[]
 }
 
 export interface PokemonSprites {

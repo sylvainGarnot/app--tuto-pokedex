@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { toPokemonType, type PokemonType } from '@/types/pokemonType'
+import { toPokemonType, type PokemonTypeInterface } from '@/types/pokemonType'
 import { POKEAPI_URL } from '@/constant'
 
 export const usePokemonTypeStore = defineStore('pokemonType', () => {
 
   // STATE
-  const types = ref<PokemonType[]>([])
+  const types = ref<PokemonTypeInterface[]>([])
 
 
   // API CALLS

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 import type { Pokemon } from '@/types/pokemon'
-import type { PokemonType } from '@/types/pokemonType'
+import type { PokemonTypeInterface } from '@/types/pokemonType'
 import type { TeamInterface } from '@/types/team'
 
 export const useTeamStore = defineStore('team', () => {
@@ -74,7 +74,7 @@ export const useTeamStore = defineStore('team', () => {
             name: pokemon.name,
             image: pokemon.image,
             sprite: pokemon.sprite,
-            types: pokemon.types.map((type: PokemonType) => ({
+            types: pokemon.types.map((type: PokemonTypeInterface) => ({
               name: type.name,
               image: type.image,
             })),
