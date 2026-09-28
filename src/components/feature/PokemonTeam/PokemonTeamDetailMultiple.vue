@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PokemonTeam } from '@/types/pokemon'
+import PokemonDetailSquare from '@/components/feature/PokemonDetail/PokemonDetailSquare.vue'
 
 defineProps<{
   teams: PokemonTeam[]
@@ -22,14 +23,13 @@ defineProps<{
           <h3>{{ team.name }}</h3>
         </div>
         <div class="team-pokemons">
-          <div
+          <PokemonDetailSquare
             v-for="pokemon in team.pokemons"
             :key="pokemon.id"
-            class="pokemon-mini"
-            :title="pokemon.name"
-          >
-            <img :src="pokemon.sprite" :alt="pokemon.name" />
-          </div>
+            :pokemon="pokemon"
+            no-id
+            no-title
+          />
         </div>
       </RouterLink>
     </div>
@@ -90,29 +90,5 @@ defineProps<{
   flex-wrap: wrap;
   gap: 0.75rem;
   padding-top: 0;
-}
-
-.pokemon-mini {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  border-radius: 4px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.pokemon-mini:hover {
-  background: #e8f5e9;
-}
-
-.pokemon-mini img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  image-rendering: pixelated;
 }
 </style>

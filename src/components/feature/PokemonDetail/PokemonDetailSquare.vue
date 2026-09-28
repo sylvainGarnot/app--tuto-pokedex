@@ -4,13 +4,16 @@ import type { Pokemon } from '@/types/pokemon'
 
 defineProps<{
   pokemon: Pokemon
+  noId?: boolean
+  noTitle?: boolean
+  small?: boolean
 }>()
 </script>
 
 <template>
-  <RouterLink :to="`/pokemon/${pokemon.id}`" class="pokemon-item">
-    <span class="pokemon-id">{{ pokemon.id }}</span>
-    <span class="pokemon-name">{{ pokemon.name }}</span>
+  <RouterLink :to="`/pokemon/${pokemon.id}`" class="pokemon-item" :class="{ small : small }">
+    <span v-if="!noId" class="pokemon-id">{{ pokemon.id }}</span>
+    <span v-if="!noTitle" class="pokemon-name">{{ pokemon.name }}</span>
     <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
   </RouterLink>
 </template>
@@ -31,6 +34,7 @@ defineProps<{
   cursor: pointer;
   border: 1px solid #eee;
   transition: transform 0.2s ease;
+  width: 25px;
 }
 
 .pokemon-item:hover {
@@ -52,8 +56,8 @@ defineProps<{
 }
 
 .pokemon-sprite {
-  max-width: 100px;
-  height: auto;
-  border-radius: 4px;
+  width: 250%;
+  height: 250%;
+  object-fit: contain;
 }
 </style>

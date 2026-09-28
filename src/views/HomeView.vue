@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 import { onMounted } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import { useTypeStore } from '@/stores/typeStore'
-import PokemonTeamMultiple from '@/components/feature/PokemonTeam/PokemonTeamMultiple.vue'
+import PokemonTeamDetailMultiple from '@/components/feature/PokemonTeam/PokemonTeamDetailMultiple.vue'
 
 const teamStore = useTeamStore()
 const typeStore = useTypeStore()
@@ -31,7 +31,7 @@ onMounted(async () => {
       <div class="right-section">
         <h2>Vos équipes</h2>
         <section class="teams-section">
-          <PokemonTeamMultiple :teams="teamStore.teams" />
+          <PokemonTeamDetailMultiple :teams="teamStore.teams" />
         </section>
       </div>
     </div>
@@ -45,7 +45,7 @@ main {
     gap: 2rem;
 
     .left-section {
-      flex: 2;
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
