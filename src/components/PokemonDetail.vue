@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import type { Pokemon, PokemonType } from '../types/pokemon'
+import { toPokemon, createEmptyPokemon, type Pokemon } from '../types/pokemon'
 import { useTeamStore } from '../stores/teamStore'
 import { POKEAPI_URL } from '@/constant';
 const teamStore = useTeamStore()
@@ -13,21 +13,14 @@ const props = defineProps<{
 
 
 // REF
-const pokemon = ref<Pokemon | null>({
-  id: 0,
-  pokedexId: 0,
-  name: '',
-  image: '',
-  sprite: '',
-  types: [] as PokemonType[],
-} as Pokemon | null)
+const pokemon = ref<Pokemon | null>(createEmptyPokemon())
 const loading = ref(true)
 const error = ref('')
 
 
 // MOUNTED
 onMounted(() => {
-  apiGetPokemon()
+  pokemon.value = apiGetPokemon() as Pokemon | null
 })
 
 
@@ -35,13 +28,13 @@ onMounted(() => {
 function apiGetPokemon() {
   loading.value = true
 
+  // recherche dans le store
   for (const team of teamStore.teams) {
     const foundInTeam = team.pokemons.find((p: Pokemon) => p.id.toString() === props.id)
     if (foundInTeam) {
       console.log('Pokemon trouvé dans le store:', foundInTeam.name)
-      pokemon.value = foundInTeam
       loading.value = false
-      return
+      return foundInTeam as Pokemon
     }
   }
 
@@ -52,21 +45,12 @@ function apiGetPokemon() {
     })
     .then((data) => {
       console.log('Pokemon récupéré depuis l\'API:')
-      pokemon.value = {
-        id: data.id,
-        pokedexId: data.pokedexId,
-        name: data.name,
-        image: data.image,
-        sprite: data.sprite,
-        types: data.apiTypes.map((type: PokemonType) => ({
-          name: type.name,
-          image: type.image,
-        })) as PokemonType[],
-      } as Pokemon
+      return toPokemon(data)
     })
-    .catch((error) => {
+    .catch((err) => {
       error.value = 'Erreur lors du chargement du Pokémon'
-      console.error('Erreur:', error)
+      console.error('Erreur:', err)
+      return null
     })
     .finally(() => {
       loading.value = false
@@ -88,7 +72,7 @@ function apiGetPokemon() {
   <div v-if="pokemon" class="pokemon-detail">
     <div class="pokemon-header">
       <div class="pokemon-image-section">
-        <img v-if="pokemon.image" :src="pokemon.image" :alt="pokemon.name" class="pokemon-image" />
+        <img v-if="pokemon.sprite" :src="pokemon.sprite" :alt="pokemon.name" class="pokemon-image" />
         <p v-else class="no-image">Pas d'image disponible</p>
       </div>
 

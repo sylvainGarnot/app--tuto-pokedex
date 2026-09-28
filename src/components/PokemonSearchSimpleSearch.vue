@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import type { Pokemon } from '../types/pokemon'
+import { toPokemon, type Pokemon } from '../types/pokemon'
 import { POKEAPI_URL } from '@/constant';
 
 // DATA
@@ -65,18 +65,7 @@ function searchPokemon() {
       return response.json()
     })
     .then((data) => {
-      const results: Pokemon = {
-        id: data?.id || '',
-        pokedexId: data?.id || '',
-        name: data?.name || '',
-        image: data?.sprites?.back_default || '',
-        sprite: data?.sprites?.front_shiny || '',
-        types: []
-        // types: data.types.map((type: PokemonType) => ({
-        //   name: type.name,
-        //   image: type.image,
-        // })),
-      }
+      const results: Pokemon = toPokemon(data)
       emit('search', results)
     })
     .catch(() => {

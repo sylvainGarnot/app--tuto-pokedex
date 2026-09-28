@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import type { Pokemon, PokemonType } from '../types/pokemon'
+import { toPokemon, type Pokemon } from '../types/pokemon'
 import { POKEAPI_URL } from '@/constant';
 
 
@@ -58,20 +58,7 @@ function searchByGeneration() {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      const result = [] as Pokemon[]
-      for (let index = 0; index < data.length; index++) {
-        result.push({
-          id: data[index].id || '',
-          pokedexId: data[index].pokedexId,
-          name: data[index].name,
-          image: data[index].image,
-          sprite: data[index].sprite,
-          types: data[index].apiTypes.map((type: PokemonType) => ({
-            name: type.name,
-            image: type.image,
-          })),
-        })
-      }
+      const result = data.map((raw: Parameters<typeof toPokemon>[0]) => toPokemon(raw)) as Pokemon[]
       emit('search', result)
     })
     .catch(() => {
