@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 import type { PokemonInterface } from '@/types/pokemon'
-import type { PokemonTypeInterface } from '@/types/pokemonType'
-import type { TeamInterface } from '@/types/team'
+import { toTeam, type TeamInterface } from '@/types/team'
+import { BDD_URL } from '@/constant'
 
 export const useTeamStore = defineStore('team', () => {
 
@@ -48,7 +48,7 @@ export const useTeamStore = defineStore('team', () => {
   
   // API CALLS
   async function apiGetTeams() {
-    return axios.get('http://localhost:3000/teams')
+    return axios.get(BDD_URL + '/teams')
       .then(response => {
         teams.value = response.data
         return response.data
@@ -60,26 +60,9 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   async function apiGetTeam(id: string) {
-    axios.get('http://localhost:3000/teams/' + id)
+    axios.get(BDD_URL + '/teams/' + id)
       .then(response => {
-        setCurrentTeam({
-          id: response.data.id,
-          name: response.data.name,
-          subname: response.data.subname,
-          createdAt: response.data.createdAt,
-          updatedAt: response.data.updatedAt,
-          pokemons: response.data.pokemons.map((pokemon: PokemonInterface) => ({
-            id: pokemon.id,
-            pokedexId: pokemon.pokedexId,
-            name: pokemon.name,
-            image: pokemon.image,
-            sprite: pokemon.sprite,
-            types: pokemon.types.map((type: PokemonTypeInterface) => ({
-              name: type.name,
-              image: type.image,
-            })),
-          })),
-        } as TeamInterface)
+        setCurrentTeam(toTeam(response.data))
       })
       .catch(error => {
         console.error('Erreur:', error)
@@ -87,17 +70,11 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   async function apiPostTeam(team: TeamInterface) {
-    return axios.post('http://localhost:3000/teams', team)
+    return axios.post(BDD_URL + '/teams', team)
       .then((response) => {
         console.log('Équipe créée avec succès:', response)
         clearCurrentTeam()
-        setCurrentTeam({
-          id: response.data.id,
-          name: response.data.name,
-          subname: response.data.subname,
-          pokemons: response.data.pokemons as Pokemon[],
-          createdAt: response.data.createdAt,
-        } as TeamInterface)
+        setCurrentTeam(toTeam(response.data))
       })
       .catch(error => {
         console.error('Erreur:', error)
@@ -107,7 +84,7 @@ export const useTeamStore = defineStore('team', () => {
 
   async function apiPutTeam(team: TeamInterface) {
     try {
-      await fetch(`http://localhost:3000/teams/${team.id}`, {
+      await fetch(BDD_URL + `/teams/${team.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +101,7 @@ export const useTeamStore = defineStore('team', () => {
 
 
   async function apiDeleteTeam(teamId: string) {
-    return axios.delete(`http://localhost:3000/teams/${teamId}`)
+    return axios.delete(BDD_URL + `/teams/${teamId}`)
       .then(() => {
         teams.value = teams.value.filter(team => team.id !== teamId)
         if (currentTeam.value?.id === teamId) {

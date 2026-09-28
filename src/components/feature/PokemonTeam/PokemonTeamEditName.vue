@@ -41,6 +41,7 @@ function submitForm() {
 
 function updateTeam() {
   loading.value = true
+
   teamStore.apiPutTeam({
     ...currentTeam.value,
     name: teamName.value ? teamName.value : currentTeam.value?.name,
@@ -62,6 +63,7 @@ function updateTeam() {
 
 function createTeam() {
   loading.value = true
+  
   teamStore.apiPostTeam({
     name: teamName.value,
     subname: teamSubname.value,

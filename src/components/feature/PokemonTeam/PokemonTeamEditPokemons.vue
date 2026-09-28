@@ -38,6 +38,7 @@ function addPokemonToTeam() {
 
   loading.value = true
   alertMessage.value = ''
+  
   const newTeamPokemons = [...currentTeam.value.pokemons, searchResult.value]
   teamStore.apiPutTeam({
     ...currentTeam.value,
@@ -61,6 +62,7 @@ function removePokemon(pokemonId: number) {
   if (!currentTeam.value) return
   loading.value = true
   alertMessage.value = ''
+
   const newTeamPokemons = currentTeam.value.pokemons.filter(p => p.id !== pokemonId)
   teamStore.apiPutTeam({
     ...currentTeam.value,
