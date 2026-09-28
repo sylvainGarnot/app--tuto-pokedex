@@ -3,14 +3,14 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 import PokemonDetail from '@/components/feature/PokemonDetail/PokemonDetail.vue'
-import { createEmptyPokemon, type Pokemon } from '@/types/pokemon'
+import { createEmptyPokemon, type PokemonInterface } from '@/types/pokemon'
 import { useTeamStore } from '@/stores/teamStore'
 import { getPokemon } from '@/composables/usePokemon'
 
 const route = useRoute()
 const teamStore = useTeamStore()
 
-const pokemon = ref<Pokemon | null>(createEmptyPokemon())
+const pokemon = ref<PokemonInterface | null>(createEmptyPokemon())
 const loading = ref(true)
 const error = ref('')
 
@@ -22,17 +22,17 @@ onMounted(async () => {
 
 
 // FUNCTION
-async function apiGetPokemon(): Promise<Pokemon | null> {
+async function apiGetPokemon(): Promise<PokemonInterface | null> {
   loading.value = true
 
   const id = route.params.id as string
 
   // recherche dans le store
   for (const team of teamStore.teams) {
-    const foundInTeam = team.pokemons.find((p: Pokemon) => p.id.toString() === id)
+    const foundInTeam = team.pokemons.find((p: PokemonInterface) => p.id.toString() === id)
     if (foundInTeam) {
       loading.value = false
-      return foundInTeam as Pokemon
+      return foundInTeam as PokemonInterface
     }
   }
 

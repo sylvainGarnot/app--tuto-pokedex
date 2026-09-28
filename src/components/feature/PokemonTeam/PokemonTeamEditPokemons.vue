@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import type { TeamInterface } from '@/types/team'
 
 const teamStore = useTeamStore()
@@ -11,13 +11,13 @@ const teamStore = useTeamStore()
 
 // DATA & STORE
 const currentTeam = computed(() => teamStore.currentTeam)
-const searchResult = ref<Pokemon | null>(null)
+const searchResult = ref<PokemonInterface | null>(null)
 const alertMessage = ref('')
 const loading = ref(false)
 
 
 // FUNCTIONS
-function handleSearchResult(result: Pokemon | null) {
+function handleSearchResult(result: PokemonInterface | null) {
   searchResult.value = result
   alertMessage.value = ''
 }
@@ -41,7 +41,7 @@ function addPokemonToTeam() {
   const newTeamPokemons = [...currentTeam.value.pokemons, searchResult.value]
   teamStore.apiPutTeam({
     ...currentTeam.value,
-    pokemons: newTeamPokemons as Pokemon[],
+    pokemons: newTeamPokemons as PokemonInterface[],
   } as TeamInterface)
   .then(() => {
     alertMessage.value = `${searchResult?.value?.name} ajouté à l'équipe!`
@@ -64,7 +64,7 @@ function removePokemon(pokemonId: number) {
   const newTeamPokemons = currentTeam.value.pokemons.filter(p => p.id !== pokemonId)
   teamStore.apiPutTeam({
     ...currentTeam.value,
-    pokemons: newTeamPokemons as Pokemon[],
+    pokemons: newTeamPokemons as PokemonInterface[],
   } as TeamInterface)
     .then(() => {
       alertMessage.value = `Pokémon retiré de l'équipe`

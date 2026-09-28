@@ -1,6 +1,6 @@
 import type { PokemonTypeInterface } from '@/types/pokemonType'
 
-export interface Pokemon {
+export interface PokemonInterface {
   id: number
   pokedexId: number
   name: string
@@ -17,7 +17,7 @@ export interface PokemonSprites {
   back_shiny?: string,
 }
 
-export function createEmptyPokemon(): Pokemon {
+export function createEmptyPokemon(): PokemonInterface {
   return {
     id: 0,
     pokedexId: 0,
@@ -46,7 +46,7 @@ export function toPokemon(raw: {
       url?: string
     }
   }[]
-}): Pokemon {
+}): PokemonInterface {
   return {
     id: raw.id ?? 0,
     pokedexId: raw.id ?? 0,
@@ -64,5 +64,5 @@ export function toPokemon(raw: {
       .map((t) => ({
         name: t.type!.name as string,
       })),
-  } as Pokemon
+  } as PokemonInterface
 }

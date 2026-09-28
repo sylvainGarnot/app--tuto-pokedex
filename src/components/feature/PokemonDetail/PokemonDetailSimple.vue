@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 
 defineProps<{
-  pokemon: Pokemon | null
+  pokemon: PokemonInterface
 }>()
 
 const pokemonTypeStore = usePokemonTypeStore()

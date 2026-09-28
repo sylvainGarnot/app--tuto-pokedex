@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 
 defineProps<{
-  pokemon: Pokemon
+  pokemon: PokemonInterface
   noId?: boolean
   noTitle?: boolean
   small?: boolean

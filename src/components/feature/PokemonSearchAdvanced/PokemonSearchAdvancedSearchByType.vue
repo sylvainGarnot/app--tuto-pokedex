@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant'
@@ -15,7 +15,7 @@ const props = defineProps({
 
 // EMITS
 const emit = defineEmits<{
-  'search': [Pokemon[]]
+  'search': [PokemonInterface[]]
   'update:type1': [string]
   'update:type2': [string]
 }>()
@@ -65,7 +65,7 @@ async function searchByType() {
     }
 
     const pokemons = await Promise.all(names.map((name) => getPokemon(name)))
-    emit('search', pokemons.filter((pokemon): pokemon is Pokemon => pokemon !== null))
+    emit('search', pokemons.filter((pokemon): pokemon is PokemonInterface => pokemon !== null))
   } catch (err) {
     error.value = 'Erreur lors de la recherche'
     console.error('Erreur:', err)

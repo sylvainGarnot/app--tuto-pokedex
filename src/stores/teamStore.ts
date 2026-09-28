@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import type { PokemonTypeInterface } from '@/types/pokemonType'
 import type { TeamInterface } from '@/types/team'
 
@@ -17,7 +17,7 @@ export const useTeamStore = defineStore('team', () => {
     currentTeam.value = team
   }
 
-  function addCurrentTeamPokemon(pokemon: Pokemon) {
+  function addCurrentTeamPokemon(pokemon: PokemonInterface) {
     if (currentTeam.value && currentTeam.value.pokemons.length < 6) {
       currentTeam.value.pokemons.push(pokemon)
     }
@@ -68,7 +68,7 @@ export const useTeamStore = defineStore('team', () => {
           subname: response.data.subname,
           createdAt: response.data.createdAt,
           updatedAt: response.data.updatedAt,
-          pokemons: response.data.pokemons.map((pokemon: Pokemon) => ({
+          pokemons: response.data.pokemons.map((pokemon: PokemonInterface) => ({
             id: pokemon.id,
             pokedexId: pokemon.pokedexId,
             name: pokemon.name,

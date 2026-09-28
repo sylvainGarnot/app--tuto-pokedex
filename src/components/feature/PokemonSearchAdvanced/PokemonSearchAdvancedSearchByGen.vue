@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant';
 
@@ -13,7 +13,7 @@ const props = defineProps({
 
 // EMITS
 const emit = defineEmits<{
-  'search': [Pokemon[]]
+  'search': [PokemonInterface[]]
   'update:generation': [string]
 }>()
 
@@ -64,7 +64,7 @@ async function searchByGeneration() {
       )
 
     const pokemons = await Promise.all(names.map((name) => getPokemon(name)))
-    emit('search', pokemons.filter((pokemon): pokemon is Pokemon => pokemon !== null))
+    emit('search', pokemons.filter((pokemon): pokemon is PokemonInterface => pokemon !== null))
   } catch (err) {
     error.value = 'Erreur lors de la recherche'
     console.error('Erreur:', err)

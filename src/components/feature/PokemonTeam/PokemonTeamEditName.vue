@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import type { TeamInterface } from '@/types/team'
 import { useTeamStore } from '@/stores/teamStore'
 
@@ -65,7 +65,7 @@ function createTeam() {
   teamStore.apiPostTeam({
     name: teamName.value,
     subname: teamSubname.value,
-    pokemons: [] as Pokemon[],
+    pokemons: [] as PokemonInterface[],
     createdAt: new Date().toISOString(),
   } as TeamInterface)
   .then(() => {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
@@ -11,11 +11,11 @@ const router = useRouter()
 
 
 // DATA
-const pokemonResult = ref<Pokemon | null>(null)
+const pokemonResult = ref<PokemonInterface | null>(null)
 
 
 // FUNCTIONS
-function handleSearch(newResult: Pokemon | null) {
+function handleSearch(newResult: PokemonInterface | null) {
   pokemonResult.value = newResult
   router.push({ query: { name: pokemonResult.value ? pokemonResult.value.name : '' } })
 }

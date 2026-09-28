@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 
 // DATA
@@ -19,7 +19,7 @@ const props = defineProps({
 
 // EMITS
 const emit = defineEmits<{
-  'search': [Pokemon | null]
+  'search': [PokemonInterface | null]
 }>()
 
 

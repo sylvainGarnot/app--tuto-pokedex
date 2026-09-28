@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import type { Pokemon } from '@/types/pokemon'
+import type { PokemonInterface } from '@/types/pokemon'
 import BaseButtonBack from '@/components/base/BaseButtonBack.vue'
 import PokemonSearchAdvancedSearchByType from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvancedSearchByType.vue'
 import PokemonSearchAdvancedSearchByGen from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvancedSearchByGen.vue'
@@ -13,8 +13,8 @@ const router = useRouter()
 
 
 // DATA
-const resultsByType = ref<Pokemon[]>([])
-const resultsByGen = ref<Pokemon[]>([])
+const resultsByType = ref<PokemonInterface[]>([])
+const resultsByGen = ref<PokemonInterface[]>([])
 
 
 // COMPUTED
@@ -58,7 +58,7 @@ const results = computed(() => {
             :type2="route.query.type2 ? route.query.type2 as string : ''"
             @update:type1="(input: string) => router.push({ query: { type1: input, type2: route.query.type2, generation: route.query.generation } })"
             @update:type2="(input: string) => router.push({ query: { type1: route.query.type1, type2: input, generation: route.query.generation } })"
-            @search="(value: Pokemon[]) => resultsByType = value"
+            @search="(value: PokemonInterface[]) => resultsByType = value"
           />
         </div>
 
@@ -66,7 +66,7 @@ const results = computed(() => {
           <PokemonSearchAdvancedSearchByGen
             :generation="route.query.generation ? route.query.generation as string : ''"
             @update:generation="(input: string) => router.push({ query: { generation: input, type1: route.query.type1, type2: route.query.type2 } })"
-            @search="(value: Pokemon[]) => resultsByGen = value"
+            @search="(value: PokemonInterface[]) => resultsByGen = value"
           />
         </div>
       </div>

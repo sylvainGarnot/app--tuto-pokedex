@@ -1,7 +1,7 @@
-import { toPokemon, type Pokemon } from '@/types/pokemon'
+import { toPokemon, type PokemonInterface } from '@/types/pokemon'
 import { POKEAPI_URL } from '@/constant'
 
-export async function getPokemon(identifier: string): Promise<Pokemon | null> {
+export async function getPokemon(identifier: string): Promise<PokemonInterface | null> {
   return fetch(`${POKEAPI_URL}/pokemon/${identifier.toLowerCase()}/`)
     .then((response) => response.json())
     .then((data) => toPokemon(data))
