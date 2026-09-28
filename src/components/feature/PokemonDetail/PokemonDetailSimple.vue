@@ -1,10 +1,24 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import type { Pokemon } from '@/types/pokemon'
+import { useTypeStore } from '@/stores/typeStore'
 
 defineProps<{
   pokemon: Pokemon | null
 }>()
+
+const typeStore = useTypeStore()
+
+onMounted(() => {
+  if (typeStore.types.length === 0) {
+    typeStore.apiGetTypes()
+  }
+})
+
+function getTypeIcon(name: string) {
+  return typeStore.types.find((type) => type.name === name)?.icons?.symbol_icon
+}
 </script>
 
 <template>
@@ -15,7 +29,10 @@ defineProps<{
         <span class="pokemon-name">{{ pokemon.name }}</span>
         <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
         <div v-if="pokemon.types && pokemon.types.length > 0" class="types-icons">
-          <img v-for="type in pokemon.types" :key="type.name" :src="type.image" :alt="type.name" class="type-icon" />
+          <img v-for="type in pokemon.types"
+            :key="type.name" :src="getTypeIcon(type.name)"
+            :alt="type.name"
+            class="type-icon" />
         </div>
       </div>
     </RouterLink>

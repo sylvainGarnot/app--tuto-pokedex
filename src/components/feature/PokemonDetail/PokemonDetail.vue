@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import type { Pokemon } from '@/types/pokemon'
+import { useTypeStore } from '@/stores/typeStore'
 
 
 // PROPS
@@ -8,6 +10,18 @@ defineProps<{
   loading: boolean
   error: string
 }>()
+
+const typeStore = useTypeStore()
+
+onMounted(() => {
+  if (typeStore.types.length === 0) {
+    typeStore.apiGetTypes()
+  }
+})
+
+function getTypeIcons(name: string) {
+  return typeStore.types.find((type) => type.name === name)?.icons
+}
 </script>
 
 <template>
@@ -34,8 +48,8 @@ defineProps<{
           <h2>Types</h2>
           <div class="types-list">
             <div v-for="type in pokemon.types" :key="type.name" class="type-item">
-              <img :src="type.image" :alt="type.name" class="type-image" />
-              <span>{{ type.name }}</span>
+              <img :src="getTypeIcons(type.name)?.symbol_icon" :alt="type.name" class="type-image" />
+              <img :src="getTypeIcons(type.name)?.name_icon" :alt="type.name" class="type-name-image" />
             </div>
           </div>
         </div>
@@ -178,6 +192,11 @@ defineProps<{
 .type-image {
   width: 40px;
   height: 40px;
+  object-fit: contain;
+}
+
+.type-name-image {
+  height: 20px;
   object-fit: contain;
 }
 
