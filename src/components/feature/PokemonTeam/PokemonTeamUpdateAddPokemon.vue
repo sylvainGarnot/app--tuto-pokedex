@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
-import PokemonSearchSimple from '@/components/feature/PokemonSearch/PokemonSearchSimple.vue'
-import PokemonSearchSimpleResult from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
+import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
+import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import type { Pokemon, PokemonTeam } from '@/types/pokemon'
 
 const teamStore = useTeamStore()
@@ -87,7 +87,7 @@ function removePokemon(pokemonId: number) {
       <!-- Section recherche -->
       <div class="search-section">
         <h2>Ajouter un Pokémon</h2>
-        <PokemonSearchSimple @update:result="handleSearchResult" />
+        <PokemonSearch @update:result="handleSearchResult" />
         <div v-if="alertMessage" class="alert-message" :class="{ success: alertMessage.includes('ajouté') }">
           {{ alertMessage }}
         </div>
@@ -108,7 +108,7 @@ function removePokemon(pokemonId: number) {
           </div>
 
           <div v-for="pokemon in currentTeam.pokemons" :key="pokemon.id" class="pokemon-item">
-            <PokemonSearchSimpleResult :pokemon="pokemon" />
+            <PokemonDetailSimple :pokemon="pokemon" />
             <button @click="removePokemon(pokemon.id)" class="remove-button">
               ✕ Retirer
             </button>
