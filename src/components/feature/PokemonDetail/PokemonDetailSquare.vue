@@ -3,37 +3,19 @@ import { RouterLink } from 'vue-router'
 import type { Pokemon } from '@/types/pokemon'
 
 defineProps<{
-  pokemons: Pokemon[]
+  pokemon: Pokemon
 }>()
 </script>
 
 <template>
-  <div v-if="pokemons.length > 0" class="results-list">
-    <h2>{{ pokemons.length }} Pokémon trouvé(s)</h2>
-    <div class="pokemon-grid">
-      <RouterLink v-for="pokemon in pokemons" :key="pokemon.id" :to="`/pokemon/${pokemon.id}`" class="pokemon-item">
-        <span class="pokemon-id">{{ pokemon.id }}</span>
-        <span class="pokemon-name">{{ pokemon.name }}</span>
-        <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
-      </RouterLink>
-    </div>
-  </div>
+  <RouterLink :to="`/pokemon/${pokemon.id}`" class="pokemon-item">
+    <span class="pokemon-id">{{ pokemon.id }}</span>
+    <span class="pokemon-name">{{ pokemon.name }}</span>
+    <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
+  </RouterLink>
 </template>
 
 <style scoped>
-.results-list {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.pokemon-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
-}
-
 .pokemon-item {
   text-decoration: none;
   color: inherit;
@@ -73,23 +55,5 @@ defineProps<{
   max-width: 100px;
   height: auto;
   border-radius: 4px;
-}
-
-@media (max-width: 1024px) {
-  .pokemon-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .pokemon-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .pokemon-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 </style>

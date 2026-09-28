@@ -71,8 +71,11 @@ const results = computed(() => {
         </div>
       </div>
 
-      <div v-if="results && results.length > 0" class="results-grid">
-        <PokemonDetailSquare v-if="results && results.length > 0" :pokemons="results" />
+      <div v-if="results && results.length > 0" class="results-list">
+        <h2>{{ results.length }} Pokémon trouvé(s)</h2>
+        <div class="pokemon-grid">
+          <PokemonDetailSquare v-for="pokemon in results" :key="pokemon.id" :pokemon="pokemon" />
+        </div>
       </div>
       <p v-else class="no-results">Aucun résultat</p>
     </div>
@@ -91,6 +94,37 @@ const results = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.results-list {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .no-results {
