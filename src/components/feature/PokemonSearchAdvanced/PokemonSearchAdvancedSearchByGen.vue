@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { toPokemon, type Pokemon } from '@/types/pokemon'
+import type { Pokemon } from '@/types/pokemon'
+import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant';
 
 
@@ -43,7 +44,7 @@ watch(() => selectedGeneration.value, () => {
 
 
 // FUNCTIONS
-function searchByGeneration() {
+async function searchByGeneration() {
   if (!selectedGeneration.value) {
     emit('search', [])
     return
@@ -53,21 +54,24 @@ function searchByGeneration() {
   error.value = ''
   emit('update:generation', selectedGeneration.value)
 
-  const url = `${POKEAPI_URL}/pokemon/generation/${selectedGeneration.value}`
+  try {
+    const names = await fetch(`${POKEAPI_URL}/generation/${selectedGeneration.value}`)
+      .then((response) => response.json())
+      .then((data: { pokemon_species?: { name?: string }[] }) =>
+        (data.pokemon_species ?? [])
+          .map((species) => species.name)
+          .filter((name): name is string => Boolean(name)),
+      )
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      const result = data.map((raw: Parameters<typeof toPokemon>[0]) => toPokemon(raw)) as Pokemon[]
-      emit('search', result)
-    })
-    .catch(() => {
-      error.value = 'Erreur lors de la recherche'
-      emit('search', [])
-    })
-    .finally(() => {
-      loading.value = false
-    })
+    const pokemons = await Promise.all(names.map((name) => getPokemon(name)))
+    emit('search', pokemons.filter((pokemon): pokemon is Pokemon => pokemon !== null))
+  } catch (err) {
+    error.value = 'Erreur lors de la recherche'
+    console.error('Erreur:', err)
+    emit('search', [])
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 

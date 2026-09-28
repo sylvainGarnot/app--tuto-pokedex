@@ -74,6 +74,7 @@ const results = computed(() => {
       <div v-if="results && results.length > 0" class="results-grid">
         <PokemonDetailSquare v-if="results && results.length > 0" :pokemons="results" />
       </div>
+      <p v-else class="no-results">Aucun résultat</p>
     </div>
   </main>
 </template>
@@ -90,5 +91,11 @@ const results = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.no-results {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
 }
 </style>
