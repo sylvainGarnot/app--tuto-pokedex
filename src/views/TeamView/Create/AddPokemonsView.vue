@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PokemonTeamEditPokemons from '@/components/feature/PokemonTeam/PokemonTeamEditPokemons.vue'
 import { useRouter } from 'vue-router'
+import BaseButton from '@/components/base/BaseButton.vue'
 const router = useRouter()
 </script>
 
@@ -9,9 +10,9 @@ const router = useRouter()
     <PokemonTeamEditPokemons />
 
     <div class="next-step">
-      <button @click="router.push({ name: 'team-create-resume' })" class="btn-primary">
+      <BaseButton @click="router.push({ name: 'team-create-resume' })">
         Étape suivante
-      </button>
+      </BaseButton>
     </div>
   </main>
 </template>

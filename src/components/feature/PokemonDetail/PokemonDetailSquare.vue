@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PokemonInterface } from '@/types/pokemon'
+import BaseRouterLink from '@/components/base/BaseRouterLink.vue';
 
 defineProps<{
   pokemon: PokemonInterface
@@ -10,11 +11,11 @@ defineProps<{
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-item" :class="{ 'container-small': small }">
+  <BaseRouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-item" :class="{ 'container-small': small }">
     <span v-if="!noId" class="pokemon-id">{{ pokemon.id }}</span>
     <span v-if="!noTitle" class="pokemon-name">{{ pokemon.name }}</span>
     <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
-  </RouterLink>
+  </BaseRouterLink>
 </template>
 
 <style scoped>

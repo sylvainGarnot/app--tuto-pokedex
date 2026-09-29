@@ -2,6 +2,7 @@
 import { ref, watch, onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 // DATA
 const inputId = ref('')
@@ -97,21 +98,15 @@ function searchPokemon() {
         @keyup.enter="searchPokemon"
       />
     </div>
-    <button class="search-button" @click="searchPokemon" :disabled="loading">
-      {{ loading ? 'Recherche...' : 'Rechercher' }}
-    </button>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
+
+  <BaseButton @click="searchPokemon" :disabled="loading">
+    {{ loading ? 'Recherche...' : 'Rechercher' }}
+  </BaseButton>
 </template>
 
 <style scoped>
-.error {
-  background-color: #fee;
-  color: #c33;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
 
 .search-container {
   display: flex;
@@ -140,23 +135,4 @@ label {
   border-radius: 4px;
 }
 
-.search-button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.search-button:hover {
-  background-color: #369970;
-}
-
-.search-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
 </style>

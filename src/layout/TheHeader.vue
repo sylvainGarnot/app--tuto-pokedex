@@ -1,16 +1,16 @@
 <template>
   <header>
     <nav>
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink :to="{ name: 'search' }">Recherche</RouterLink>
-      <RouterLink :to="{ name: 'search-advanced' }">Recherche Avancée</RouterLink>
-      <RouterLink :to="{ name: 'team-create-home' }">Créer Équipe</RouterLink>
+      <BaseRouterLink :to="{ name: 'home' }">Home</BaseRouterLink>
+      <BaseRouterLink :to="{ name: 'search' }">Recherche</BaseRouterLink>
+      <BaseRouterLink :to="{ name: 'search-advanced' }">Recherche Avancée</BaseRouterLink>
+      <BaseRouterLink :to="{ name: 'team-create-home' }">Créer Équipe</BaseRouterLink>
     </nav>
   </header>
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import BaseRouterLink from '@/components/base/BaseRouterLink.vue';
 </script>
 
 <style scoped>

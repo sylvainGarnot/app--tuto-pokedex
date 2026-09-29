@@ -3,9 +3,9 @@ import { ref, computed } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import type { TeamInterface } from '@/types/team'
 import { useTeamStore } from '@/stores/teamStore'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 const teamStore = useTeamStore()
-
 
 
 // PROPS
@@ -32,7 +32,9 @@ const emit = defineEmits<{
 
 // FUNCTION
 function submitForm() {
-  if (currentTeam?.value?.id) {
+  if (!teamName.value) {
+    error.value = 'Le nom de l\'équipe est requis'
+  } else if (currentTeam?.value?.id) {
     updateTeam()
   } else {
     createTeam()
@@ -102,9 +104,9 @@ function createTeam() {
 
         <div v-if="error" class="error">{{ error }}</div>
 
-        <button type="submit" :disabled="loading" class="submit-button">
+        <BaseButton type="submit" :disabled="loading">
           {{ loading ? 'Création en cours...' : props.buttonText }}
-        </button>
+        </BaseButton>
       </form>
     </div>
   </main>
@@ -170,26 +172,5 @@ function createTeam() {
   color: #2e7d32;
   border-radius: 8px;
   font-size: 0.95rem;
-}
-
-.submit-button {
-  padding: 0.75rem;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.submit-button:hover:not(:disabled) {
-  background-color: #369970;
-}
-
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 </style>

@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
+import BaseRouterLink from '@/components/base/BaseRouterLink.vue';
 
 defineProps<{
   pokemon: PokemonInterface
@@ -22,7 +23,7 @@ function getTypeIcon(name: string) {
 
 <template>
   <div v-if="pokemon" class="result">
-    <RouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-card-link">
+    <BaseRouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-card-link">
       <div class="pokemon-card">
         <span class="pokemon-id">{{ pokemon.id }}</span>
         <span class="pokemon-name">{{ pokemon.name }}</span>
@@ -34,7 +35,7 @@ function getTypeIcon(name: string) {
             class="type-icon" />
         </div>
       </div>
-    </RouterLink>
+    </BaseRouterLink>
   </div>
 </template>
 

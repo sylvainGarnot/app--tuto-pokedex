@@ -5,6 +5,7 @@ import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import type { TeamInterface } from '@/types/team'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 const teamStore = useTeamStore()
 
@@ -99,9 +100,9 @@ function removePokemon(pokemonId: number) {
           {{ alertMessage }}
         </div>
         <div v-if="searchResult" class="search-result-wrapper">
-          <button @click="addPokemonToTeam" class="btn-primary">
+          <BaseButton @click="addPokemonToTeam">
             Ajouter
-          </button>
+          </BaseButton>
         </div>
       </div>
 
@@ -116,9 +117,9 @@ function removePokemon(pokemonId: number) {
 
           <div v-for="pokemon in currentTeam.pokemons" :key="pokemon.id" class="pokemon-item">
             <PokemonDetailSimple :pokemon="pokemon" />
-            <button @click="removePokemon(pokemon.id)" class="remove-button">
+            <BaseButton @click="removePokemon(pokemon.id)">
               ✕ Retirer
-            </button>
+            </BaseButton>
           </div>
         </div>
       </div>
@@ -211,26 +212,4 @@ function removePokemon(pokemonId: number) {
   margin-bottom: 0;
 }
 
-.remove-button {
-  padding: 0.5rem 1rem;
-  background-color: #fee;
-  color: #c33;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: #fcc;
-    border-color: #c33;
-  }
-}
-
-main>.btn-primary {
-  align-self: center;
-  width: 100%;
-  margin-top: 2rem;
-}
 </style>

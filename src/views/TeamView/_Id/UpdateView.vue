@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/teamStore'
 import PokemonTeamEditName from '@/components/feature/PokemonTeam/PokemonTeamEditName.vue'
 import PokemonTeamEditPokemons from '@/components/feature/PokemonTeam/PokemonTeamEditPokemons.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -28,9 +29,9 @@ function deleteTeam() {
 
       <PokemonTeamEditPokemons :button-text="'Valider'" />
 
-      <button v-if="currentTeam" @click="deleteTeam" class="btn-delete">
+      <BaseButton v-if="currentTeam" @click="deleteTeam">
         Supprimer l'équipe
-      </button>
+      </BaseButton>
       
     </div>
   </main>

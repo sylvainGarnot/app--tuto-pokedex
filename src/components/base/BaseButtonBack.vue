@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { Button } from '@/components/ui/button'
 import { useRouter } from 'vue-router'
-import BaseButton from './BaseButton.vue'
 
 const router = useRouter()
 
@@ -10,13 +10,11 @@ function goBack() {
 </script>
 
 <template>
-  <main>
-    <BaseButton @click="goBack">
-      <slot>
-        ← Retour
-      </slot>
-    </BaseButton>
-  </main>
+  <Button class="base-button" @click="goBack" variant="outline" size="lg">
+    <slot>
+      ← Retour
+    </slot>
+  </Button>
 </template>
 
 <style scoped lang="scss">

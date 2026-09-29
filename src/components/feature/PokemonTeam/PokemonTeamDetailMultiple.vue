@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TeamInterface } from '@/types/team'
 import PokemonDetailSquare from '@/components/feature/PokemonDetail/PokemonDetailSquare.vue'
+import BaseRouterLink from '@/components/base/BaseRouterLink.vue'
 
 defineProps<{
   teams: TeamInterface[]
@@ -13,7 +14,7 @@ defineProps<{
       Aucune équipe créée
     </div>
     <div v-else class="teams-grid">
-      <RouterLink
+      <BaseRouterLink
         v-for="team in teams"
         :key="team.id"
         :to="{ name: 'team-detail-home', params: { id: team.id } }"
@@ -32,7 +33,7 @@ defineProps<{
             small
           />
         </div>
-      </RouterLink>
+      </BaseRouterLink>
     </div>
   </div>
 </template>

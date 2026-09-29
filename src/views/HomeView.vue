@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import { onMounted } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import PokemonTeamDetailMultiple from '@/components/feature/PokemonTeam/PokemonTeamDetailMultiple.vue'
+import BaseRouterLink from '@/components/base/BaseRouterLink.vue'
 
 const teamStore = useTeamStore()
 const pokemonTypeStore = usePokemonTypeStore()
@@ -23,9 +23,9 @@ onMounted(async () => {
         <h1>Bienvenue</h1>
         <p>Explorez le monde des Pokémon</p>
         <div class="buttons">
-          <RouterLink :to="{ name: 'search' }" class="btn">Recherche simple</RouterLink>
-          <RouterLink :to="{ name: 'search-advanced' }" class="btn">Recherche avancée</RouterLink>
-          <RouterLink :to="{ name: 'team-create-home' }" class="btn btn-secondary">Créer une équipe</RouterLink>
+          <BaseRouterLink :to="{ name: 'search' }">Recherche simple</BaseRouterLink>
+          <BaseRouterLink :to="{ name: 'search-advanced' }">Recherche avancée</BaseRouterLink>
+          <BaseRouterLink :to="{ name: 'team-create-home' }">Créer une équipe</BaseRouterLink>
         </div>
       </div>
       <div class="right-section">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import BaseRouterLink from '@/components/base/BaseRouterLink.vue'
 import { formatDate } from '@/utils/dateFormatter'
 import type { TeamInterface } from '@/types/team'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
@@ -43,9 +43,9 @@ onMounted(() => {
           <p><strong>Créée le :</strong> {{ formatDate(currentTeam.createdAt) }}</p>
           <p v-if="currentTeam.updatedAt"><strong>Dernier update :</strong> {{ formatDate(currentTeam.updatedAt) }}</p>
         </div>
-        <RouterLink v-if="currentTeam?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: currentTeam.id } }" class="update-button">
+        <BaseRouterLink v-if="currentTeam?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: currentTeam.id } }" class="update-button">
           ✏️
-        </RouterLink>
+        </BaseRouterLink>
       </div>
     </div>
 

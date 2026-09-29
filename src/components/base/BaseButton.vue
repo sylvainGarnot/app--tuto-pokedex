@@ -3,18 +3,11 @@ import { Button } from '@/components/ui/button'
 </script>
 
 <template>
-  <main>
-    <Button class="base-button">
-      <slot>
-      </slot>
-    </Button>
-  </main>
+  <Button class="base-button" variant="outline" size="lg">
+    <slot>
+    </slot>
+  </Button>
 </template>
 
 <style scoped lang="scss">
-
-.base-button {
-  cursor: pointer;
-}
-
 </style>
