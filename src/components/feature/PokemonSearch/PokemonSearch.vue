@@ -3,6 +3,9 @@ import { ref, watch, onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 import BaseButton from '@/components/base/BaseButton.vue'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
+import { SearchIcon } from '@lucide/vue'
 
 // DATA
 const inputId = ref('')
@@ -75,64 +78,53 @@ function searchPokemon() {
 </script>
 
 <template>
-  <div class="search-container">
-    <div class="input-group">
-      <label for="id">ID</label>
-      <input
-        id="id"
-        v-model="inputId"
-        type="text"
-        placeholder="Entrez l'ID..."
-        class="search-input"
-        @keyup.enter="searchPokemon"
-      />
-    </div>
-    <div class="input-group">
-      <label for="name">Nom</label>
-      <input
-        id="name"
-        v-model="inputName"
-        type="text"
-        placeholder="Entrez le nom..."
-        class="search-input"
-        @keyup.enter="searchPokemon"
-      />
-    </div>
-    <div v-if="error" class="error">{{ error }}</div>
-  </div>
 
-  <BaseButton @click="searchPokemon" :disabled="loading">
-    {{ loading ? 'Recherche...' : 'Rechercher' }}
-  </BaseButton>
+  <Card>
+    <CardContent>
+
+      <InputGroup>
+        <InputGroupInput 
+          id="id"
+          v-model="inputId"
+          type="text"
+          placeholder="Entrez l'ID..."
+          @keyup.enter="searchPokemon"
+        />
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton>Search by ID</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+      <br>
+      <InputGroup>
+        <InputGroupInput 
+          id="name"
+          v-model="inputName"
+          type="text"
+          placeholder="Entrez le nom..."
+          @keyup.enter="searchPokemon"
+        />
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton>Search by Name</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+
+    </CardContent>
+
+    <CardFooter>
+      <div v-if="error" class="error">{{ error }}</div>
+      <BaseButton @click="searchPokemon" :disabled="loading">
+        {{ loading ? 'Recherche...' : 'Rechercher' }}
+      </BaseButton>
+    </CardFooter>
+  </Card>
+
 </template>
 
 <style scoped>
-
-.search-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-.search-input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 </style>
