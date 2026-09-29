@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import BaseRouterLink from '@/components/base/BaseRouterLink.vue';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 defineProps<{
   pokemon: PokemonInterface
@@ -27,12 +28,19 @@ function getTypeIcon(name: string) {
       <div class="pokemon-card">
         <span class="pokemon-id">{{ pokemon.id }}</span>
         <span class="pokemon-name">{{ pokemon.name }}</span>
-        <img v-if="pokemon?.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-sprite" />
-        <div v-if="pokemon.types && pokemon.types.length > 0" class="types-icons">
-          <img v-for="type in pokemon.types"
-            :key="type.name" :src="getTypeIcon(type.name)"
-            :alt="type.name"
-            class="type-icon" />
+                
+        <div v-if="pokemon?.sprites?.front_default">
+          <Avatar>
+            <AvatarImage :src="pokemon.sprites.front_default || ''" :alt="pokemon.name" />
+            <AvatarFallback>{{ pokemon.name }}</AvatarFallback>
+          </Avatar>
+        </div>
+        
+        <div v-if="pokemon.types && pokemon.types.length > 0">
+          <Avatar v-for="type in pokemon.types" :key="type.name">
+            <AvatarImage :src="getTypeIcon(type.name) || ''" :alt="type.name" />
+            <AvatarFallback>{{ type.name }}</AvatarFallback>
+          </Avatar>
         </div>
       </div>
     </BaseRouterLink>

@@ -52,7 +52,7 @@ async function apiGetPokemon(): Promise<PokemonInterface | null> {
 <template>
   <main>
     <BaseButtonBack />
-    <PokemonDetail :pokemon="pokemon" :loading="loading" :error="error" istitle >
+    <PokemonDetail :pokemon="pokemon" :loading="loading" :error="error">
     </PokemonDetail>
   </main>
 </template>
