@@ -5,7 +5,7 @@ import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant';
 
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
-
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 
 // PROPS
 const props = defineProps({
@@ -79,61 +79,26 @@ async function searchByGeneration() {
 
 <template>
 
-  <NativeSelect v-model="selectedGeneration">
-    <NativeSelectOption value="">
-      Sélectionnez une génération...
-    </NativeSelectOption>
-    <NativeSelectOption v-for="g in generations" :key="g" :value="g">
-      Génération n°{{ g }}
-    </NativeSelectOption>
-  </NativeSelect>
+  <FieldGroup>
+    <Field>
+      <FieldLabel for="search-by-gen-native-select">
+        Sélectionnez une génération
+      </FieldLabel>
+      <NativeSelect id="search-by-gen-native-select" v-model="selectedGeneration">
+        <NativeSelectOption value="">
+          Sélectionnez une génération...
+        </NativeSelectOption>
+        <NativeSelectOption v-for="g in generations" :key="g" :value="g">
+          Génération n°{{ g }}
+        </NativeSelectOption>
+      </NativeSelect>
+    </Field>
+  </FieldGroup>
 
-  <div v-if="error" class="error">{{ error }}</div>
-  <div v-if="loading" class="load">Chargement...</div>
+
+  <div v-if="error">{{ error }}</div>
+  <div v-if="loading">Chargement...</div>
 </template>
 
 <style scoped>
-.error {
-  background-color: #fee;
-  color: #c33;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.load {
-  color: #666;
-  padding: 1rem;
-  text-align: center;
-  font-weight: 500;
-}
-
-.search-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-.search-input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
 </style>

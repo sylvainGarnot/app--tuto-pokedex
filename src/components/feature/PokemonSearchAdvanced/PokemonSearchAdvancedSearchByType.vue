@@ -4,7 +4,8 @@ import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant'
-
+import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 
 // PROPS
 const props = defineProps({
@@ -88,110 +89,55 @@ watch(() => props.type2, () => {
 </script>
 
 <template>
-  <div class="search-container">
-    <div class="input-group">
-      <label for="type1">Type 1</label>
-      <div class="type-select-wrapper">
-        <select
-          id="type1"
-          :value="props.type1"
-          @change="emit('update:type1', ($event.target as HTMLSelectElement).value)"
-          class="search-input"
-        >
-          <option value="">Sélectionnez un type...</option>
-          <option v-for="pokemonType in pokemonTypeStore.types" :key="pokemonType.name" :value="pokemonType.name">
-            {{ pokemonType.name }}
-          </option>
-        </select>
+
+
+  <FieldGroup>
+    <Field>
+      <FieldLabel for="search-by-type-native-select">
+        Sélectionnez un type
+      </FieldLabel>
+      <NativeSelect 
+        id="search-by-type-native-select"
+        :modelValue="props.type1"
+        @change="emit('update:type1', $event.target.value)">
+        <NativeSelectOption value="">
+          Sélectionnez un type...
+        </NativeSelectOption>
+        <NativeSelectOption v-for="t in pokemonTypeStore.types" :key="t.name" :value="t.name">
+          {{ t.name }}
+        </NativeSelectOption>      
+      </NativeSelect>
+      <FieldDescription>
         <img v-if="props.type1" :src="pokemonTypeStore.types.find(t => t.name === props.type1)?.icons?.symbol_icon" :alt="props.type1" class="type-image" />
-      </div>
-    </div>
-    <div class="input-group">
-      <label for="type2">Type 2</label>
-      <div class="type-select-wrapper">
-        <select
-          id="type2"
-          :value="props.type2"
-          @change="emit('update:type2', ($event.target as HTMLSelectElement).value)"
-          class="search-input"
-          :disabled="!props.type1"
-        >
-          <option value="">Sélectionnez un type...</option>
-          <option v-for="pokemonType in pokemonTypeStore.types" :key="pokemonType.name" :value="pokemonType.name">
-            {{ pokemonType.name }}
-          </option>
-        </select>
+      </FieldDescription>
+    </Field>
+  </FieldGroup>
+
+  <FieldGroup>
+    <Field>
+      <FieldLabel for="search-by-type-native-select-2">
+        Sélectionnez un second type
+      </FieldLabel>
+      <NativeSelect 
+        id="search-by-type-native-select-2"
+        :modelValue="props.type2"
+        @change="emit('update:type2', $event.target.value)">
+        <NativeSelectOption value="">
+          Sélectionnez un type...
+        </NativeSelectOption>
+        <NativeSelectOption v-for="t in pokemonTypeStore.types" :key="t.name" :value="t.name">
+          {{ t.name }}
+        </NativeSelectOption>      
+      </NativeSelect>
+      <FieldDescription>
         <img v-if="props.type2" :src="pokemonTypeStore.types.find(t => t.name === props.type2)?.icons?.symbol_icon" :alt="props.type2" class="type-image" />
-      </div>
-    </div>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-if="loading" class="load">Chargement...</div>
-  </div>
+      </FieldDescription>
+    </Field>
+  </FieldGroup>
+
+  <div v-if="error" class="error">{{ error }}</div>
+  <div v-if="loading" class="load">Chargement...</div>
 </template>
 
 <style scoped>
-.error {
-  background-color: #fee;
-  color: #c33;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.load {
-  color: #666;
-  padding: 1rem;
-  text-align: center;
-  font-weight: 500;
-}
-
-.search-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-.type-select-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search-input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.search-input:disabled {
-  background-color: #f5f5f5;
-  color: #999;
-  cursor: not-allowed;
-}
-
-.type-image {
-  position: absolute;
-  right: 0.75rem;
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  pointer-events: none;
-}
 </style>
