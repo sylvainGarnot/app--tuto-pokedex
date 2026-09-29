@@ -23,9 +23,9 @@ onMounted(async () => {
         <h1>Bienvenue</h1>
         <p>Explorez le monde des Pokémon</p>
         <div class="buttons">
-          <BaseRouterLink :to="{ name: 'search' }">Recherche simple</BaseRouterLink>
-          <BaseRouterLink :to="{ name: 'search-advanced' }">Recherche avancée</BaseRouterLink>
-          <BaseRouterLink :to="{ name: 'team-create-home' }">Créer une équipe</BaseRouterLink>
+          <BaseRouterLink variant="outline" :to="{ name: 'search' }">Recherche simple</BaseRouterLink>
+          <BaseRouterLink variant="outline" :to="{ name: 'search-advanced' }">Recherche avancée</BaseRouterLink>
+          <BaseRouterLink variant="default" :to="{ name: 'team-create-home' }">Créer une équipe</BaseRouterLink>
         </div>
       </div>
       <div class="right-section">

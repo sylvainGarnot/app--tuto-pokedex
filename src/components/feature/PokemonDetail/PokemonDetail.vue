@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
-
+import { Badge} from '@/components/ui/badge'
 
 // PROPS
 defineProps<{
@@ -40,15 +40,15 @@ function getTypeIcons(name: string) {
 
         <!-- Basic Info Section -->
         <div class="basic-info-section">
-          <div class="basic-info-item">
-            <span class="pokemon-id">Pokédex ID: {{ pokemon.pokedexId }}</span>
-          </div>
-          <div class="basic-info-item">
-            <span class="pokemon-height">Taille: {{ pokemon.height }}</span>
-          </div>
-          <div class="basic-info-item">
-            <span class="pokemon-weight">Poids: {{ pokemon.weight }}</span>
-          </div>
+          <Badge variant="default">
+            Pokédex ID: {{ pokemon.pokedexId }}
+          </Badge>
+          <Badge variant="default">
+            Taille: {{ pokemon.height }}
+          </Badge>
+          <Badge variant="default">
+            Poids: {{ pokemon.weight }}
+          </Badge>
         </div>
 
         <!-- Sprite Section -->

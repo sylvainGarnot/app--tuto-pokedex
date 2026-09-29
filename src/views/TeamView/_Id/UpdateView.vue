@@ -29,7 +29,7 @@ function deleteTeam() {
 
       <PokemonTeamEditPokemons :button-text="'Valider'" />
 
-      <BaseButton v-if="currentTeam" @click="deleteTeam">
+      <BaseButton v-if="currentTeam" @click="deleteTeam" variant="destructive">
         Supprimer l'équipe
       </BaseButton>
       

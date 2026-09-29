@@ -24,7 +24,7 @@ function getTypeIcon(name: string) {
 
 <template>
   <div v-if="pokemon" class="result">
-    <BaseRouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-card-link">
+    <BaseRouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-card-link" variant="outline">
       <div class="pokemon-card">
         <span class="pokemon-id">{{ pokemon.id }}</span>
         <span class="pokemon-name">{{ pokemon.name }}</span>

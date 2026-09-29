@@ -117,7 +117,7 @@ function removePokemon(pokemonId: number) {
 
           <div v-for="pokemon in currentTeam.pokemons" :key="pokemon.id" class="pokemon-item">
             <PokemonDetailSimple :pokemon="pokemon" />
-            <BaseButton @click="removePokemon(pokemon.id)">
+            <BaseButton @click="removePokemon(pokemon.id)" variant="destructive">
               ✕ Retirer
             </BaseButton>
           </div>

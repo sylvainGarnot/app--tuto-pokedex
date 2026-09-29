@@ -1,10 +1,10 @@
 <template>
   <header>
     <nav>
-      <BaseRouterLink :to="{ name: 'home' }">Home</BaseRouterLink>
-      <BaseRouterLink :to="{ name: 'search' }">Recherche</BaseRouterLink>
-      <BaseRouterLink :to="{ name: 'search-advanced' }">Recherche Avancée</BaseRouterLink>
-      <BaseRouterLink :to="{ name: 'team-create-home' }">Créer Équipe</BaseRouterLink>
+      <BaseRouterLink variant="outline" :to="{ name: 'home' }">Home</BaseRouterLink>
+      <BaseRouterLink variant="outline" :to="{ name: 'search' }">Recherche</BaseRouterLink>
+      <BaseRouterLink variant="outline" :to="{ name: 'search-advanced' }">Recherche Avancée</BaseRouterLink>
+      <BaseRouterLink variant="default" :to="{ name: 'team-create-home' }">Créer Équipe</BaseRouterLink>
     </nav>
   </header>
 </template>
@@ -24,18 +24,4 @@ nav {
   gap: 2rem;
 }
 
-a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-a:hover {
-  color: #666;
-}
-
-a.router-link-active {
-  color: #42b983;
-}
 </style>

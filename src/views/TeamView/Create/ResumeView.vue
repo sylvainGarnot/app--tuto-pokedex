@@ -14,7 +14,7 @@ const currentTeam = computed(() => teamStore.currentTeam)
   <main>
     <PokemonTeamDetail v-if="currentTeam?.id" :id="(currentTeam.id as string)" isReadonly />
 
-    <BaseRouterLink v-if="currentTeam" to="{ name: 'home' }">
+    <BaseRouterLink v-if="currentTeam" :to="{ name: 'home' }">
       Retour à l'accueil
     </BaseRouterLink>
   </main>

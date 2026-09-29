@@ -3,6 +3,9 @@
   <main id="main-content">
     <slot />
   </main>
+  <br>
+  <br>
+  <br>
   <TheFooter />
 </template>
 
