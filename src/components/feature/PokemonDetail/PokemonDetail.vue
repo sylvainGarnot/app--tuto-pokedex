@@ -2,7 +2,9 @@
 import { onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
+
 import { Badge} from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 
 // PROPS
 defineProps<{
@@ -29,7 +31,9 @@ function getTypeIcons(name: string) {
 
   <div v-if="error" class="error">{{ error }}</div>
 
-  <div v-if="pokemon" class="pokemon-detail">
+  <Card v-if="pokemon">
+    <CardContent>
+
     <div class="pokemon-header">
       <div class="pokemon-image-section">
         <img v-if="pokemon.sprites?.front_default" :src="pokemon.sprites.front_default" :alt="pokemon.name" class="pokemon-image" />
@@ -76,7 +80,10 @@ function getTypeIcons(name: string) {
 
       </div>
     </div>
-  </div>
+  
+    </CardContent>
+  </Card>
+
 </template>
 
 <style scoped>

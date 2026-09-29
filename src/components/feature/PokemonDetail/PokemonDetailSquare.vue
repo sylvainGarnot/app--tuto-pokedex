@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { PokemonInterface } from '@/types/pokemon'
 import BaseRouterLink from '@/components/base/BaseRouterLink.vue';
+
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Card, CardContent } from '@/components/ui/card'
 
 defineProps<{
   pokemon: PokemonInterface
@@ -12,16 +14,23 @@ defineProps<{
 </script>
 
 <template>
-  <BaseRouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-item" :class="{ 'container-small': small }">
-    <span v-if="!noId" class="pokemon-id">{{ pokemon.id }}</span>
-    <span v-if="!noTitle" class="pokemon-name">{{ pokemon.name }}</span>
 
-    <Avatar v-if="pokemon?.sprites?.front_default">
-      <AvatarImage :src="pokemon.sprites.front_default || ''" :alt="pokemon.name" />
-      <AvatarFallback>{{ pokemon.name }}</AvatarFallback>
-    </Avatar>
+  <Card>
+    <CardContent>
 
-  </BaseRouterLink>
+      <BaseRouterLink :to="{ name: 'pokemon', params: { id: pokemon.id } }" class="pokemon-item" variant="ghost" :class="{ 'container-small': small }">
+        <span v-if="!noId" class="pokemon-id">{{ pokemon.id }}</span>
+        <span v-if="!noTitle" class="pokemon-name">{{ pokemon.name }}</span>
+
+        <Avatar v-if="pokemon?.sprites?.front_default">
+          <AvatarImage :src="pokemon.sprites.front_default || ''" :alt="pokemon.name" />
+          <AvatarFallback>{{ pokemon.name }}</AvatarFallback>
+        </Avatar>
+
+      </BaseRouterLink>
+
+    </CardContent>
+  </Card>
 </template>
 
 <style scoped>
@@ -33,13 +42,6 @@ defineProps<{
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  border: 1px solid #eee;
-  transition: transform 0.2s ease;
-  cursor: pointer;
-  border: 1px solid #eee;
-  transition: transform 0.2s ease;
 }
 
 .pokemon-sprite {
@@ -59,7 +61,6 @@ defineProps<{
 
 .pokemon-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .pokemon-id {

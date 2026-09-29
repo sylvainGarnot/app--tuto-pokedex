@@ -3,6 +3,7 @@ import { ref, watch, onMounted } from 'vue'
 import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 import BaseButton from '@/components/base/BaseButton.vue'
+
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
 import { SearchIcon } from '@lucide/vue'

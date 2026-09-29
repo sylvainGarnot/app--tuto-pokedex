@@ -7,6 +7,9 @@ import type { PokemonInterface } from '@/types/pokemon'
 import type { TeamInterface } from '@/types/team'
 import BaseButton from '@/components/base/BaseButton.vue'
 
+import { Card, CardContent } from '@/components/ui/card'
+
+
 const teamStore = useTeamStore()
 
 
@@ -85,15 +88,14 @@ function removePokemon(pokemonId: number) {
 </script>
 
 <template>
-  <main v-if="currentTeam">
-    <div class="add-pokemon-container">
+  <Card v-if="currentTeam">
+    <CardContent class="add-pokemon-container">
 
       <!-- Section recherche -->
       <div class="search-section">
         <h2>Ajouter un Pokémon</h2>
         
         <PokemonSearch @search="handleSearchResult" />
-        
         <PokemonDetailSimple v-if="searchResult" :pokemon="searchResult" />
         
         <div v-if="alertMessage" class="alert-message" :class="{ success: alertMessage.includes('ajouté') }">
@@ -123,8 +125,9 @@ function removePokemon(pokemonId: number) {
           </div>
         </div>
       </div>
-    </div>
-  </main>
+
+    </CardContent>
+  </Card>
 </template>
 
 <style scoped lang="scss">
@@ -132,22 +135,14 @@ function removePokemon(pokemonId: number) {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  width: 100%;
-  box-sizing: border-box;
-  min-width: 0;
+
+  .search-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
-.search-section {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  box-sizing: border-box;
-  min-width: 0;
-}
 
 .alert-message {
   padding: 1rem;
@@ -180,10 +175,7 @@ function removePokemon(pokemonId: number) {
 
 .team-section {
   background-color: white;
-  padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
   min-width: 0;
 }
 

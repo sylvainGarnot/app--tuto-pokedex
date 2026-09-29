@@ -6,7 +6,7 @@ import type { RouteLocationRaw } from 'vue-router'
 // PROPS
 defineProps<{
   to: RouteLocationRaw,
-  variant?: 'default' | 'outline' | 'secondary' | 'destructive'
+  variant?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost'
 }>()
 
 

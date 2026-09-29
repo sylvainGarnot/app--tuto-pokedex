@@ -6,6 +6,8 @@ import type { TeamInterface } from '@/types/team'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import { useTeamStore } from '@/stores/teamStore'
 
+import { Card, CardContent } from '@/components/ui/card'
+
 
 // PROPS
 const props = defineProps<{
@@ -32,7 +34,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="team-wrapper">
+
+  <Card>
+    <CardContent>
 
     <!-- Informations de l'équipe -->
     <div class="team-info" v-if="currentTeam">
@@ -63,7 +67,10 @@ onMounted(() => {
         </div>
       </div>
     </div>
-  </div>
+
+    </CardContent>
+  </Card>
+
 </template>
 
 <style scoped>
@@ -77,7 +84,6 @@ onMounted(() => {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .team-info-header {
@@ -120,7 +126,6 @@ onMounted(() => {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 

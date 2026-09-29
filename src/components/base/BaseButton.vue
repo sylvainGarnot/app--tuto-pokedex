@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 
 defineProps<{
-  variant?: 'default' | 'outline' | 'secondary' | 'destructive'
+  variant?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost'
 }>()
 </script>
 

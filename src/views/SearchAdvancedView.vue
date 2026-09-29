@@ -7,6 +7,8 @@ import PokemonSearchAdvancedSearchByType from '@/components/feature/PokemonSearc
 import PokemonSearchAdvancedSearchByGen from '@/components/feature/PokemonSearchAdvanced/PokemonSearchAdvancedSearchByGen.vue'
 import PokemonDetailSquare from '@/components/feature/PokemonDetail/PokemonDetailSquare.vue'
 
+import { Card, CardContent } from '@/components/ui/card'
+
 
 const route = useRoute()
 const router = useRouter()
@@ -49,60 +51,45 @@ const results = computed(() => {
     <BaseButtonBack />
     <h1>Recherche avancée</h1>
 
-    <div class="search-advanced-container">
 
-      <div class="search-section">
-        <div class="search-content">
-          <PokemonSearchAdvancedSearchByType
-            :type1="route.query.type1 ? route.query.type1 as string : ''"
-            :type2="route.query.type2 ? route.query.type2 as string : ''"
-            @update:type1="(input: string) => router.push({ query: { type1: input, type2: route.query.type2, generation: route.query.generation } })"
-            @update:type2="(input: string) => router.push({ query: { type1: route.query.type1, type2: input, generation: route.query.generation } })"
-            @search="(value: PokemonInterface[]) => resultsByType = value"
-          />
-        </div>
+    <Card>
+      <CardContent>
+        <PokemonSearchAdvancedSearchByType
+          :type1="route.query.type1 ? route.query.type1 as string : ''"
+          :type2="route.query.type2 ? route.query.type2 as string : ''"
+          @update:type1="(input: string) => router.push({ query: { type1: input, type2: route.query.type2, generation: route.query.generation } })"
+          @update:type2="(input: string) => router.push({ query: { type1: route.query.type1, type2: input, generation: route.query.generation } })"
+          @search="(value: PokemonInterface[]) => resultsByType = value"
+        />
+        <br>
+        <PokemonSearchAdvancedSearchByGen
+          :generation="route.query.generation ? route.query.generation as string : ''"
+          @update:generation="(input: string) => router.push({ query: { generation: input, type1: route.query.type1, type2: route.query.type2 } })"
+          @search="(value: PokemonInterface[]) => resultsByGen = value"
+        />
+      </CardContent>
+    </Card>
 
-        <div class="search-content">
-          <PokemonSearchAdvancedSearchByGen
-            :generation="route.query.generation ? route.query.generation as string : ''"
-            @update:generation="(input: string) => router.push({ query: { generation: input, type1: route.query.type1, type2: route.query.type2 } })"
-            @search="(value: PokemonInterface[]) => resultsByGen = value"
-          />
-        </div>
-      </div>
 
-      <div v-if="results && results.length > 0" class="results-list">
-        <h2>{{ results.length }} Pokémon trouvé(s)</h2>
-        <div class="pokemon-grid">
-          <PokemonDetailSquare v-for="pokemon in results" :key="pokemon.id" :pokemon="pokemon" />
+    <br>
+    <Card>
+      <CardContent>
+        <div v-if="results && results.length > 0">
+          <h2>{{ results.length }} Pokémon trouvé(s)</h2>
+          <br>
+          <div class="pokemon-grid">
+            <PokemonDetailSquare v-for="pokemon in results" :key="pokemon.id" :pokemon="pokemon" />
+          </div>
         </div>
-      </div>
-      <p v-else class="no-results">Aucun résultat</p>
-    </div>
+        <p v-else class="no-results">Aucun résultat</p>
+      </CardContent>
+    </Card>
+
   </main>
+
 </template>
 
 <style scoped>
-.search-section {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.search-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.results-list {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
 .pokemon-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -125,11 +112,5 @@ const results = computed(() => {
   .pokemon-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-
-.no-results {
-  text-align: center;
-  color: #666;
-  padding: 2rem;
 }
 </style>

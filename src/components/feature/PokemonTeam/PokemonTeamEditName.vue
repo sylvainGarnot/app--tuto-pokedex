@@ -5,9 +5,9 @@ import type { TeamInterface } from '@/types/team'
 import { useTeamStore } from '@/stores/teamStore'
 import BaseButton from '@/components/base/BaseButton.vue'
 
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
-import { SearchIcon } from '@lucide/vue'
 
 const teamStore = useTeamStore()
 
@@ -36,6 +36,7 @@ const emit = defineEmits<{
 
 // FUNCTION
 function submitForm() {
+  console.log('Submitting form with teamName:', teamName.value, 'teamSubname:', teamSubname.value)
   if (!teamName.value) {
     error.value = 'Le nom de l\'équipe est requis'
   } else if (currentTeam?.value?.id) {
@@ -93,10 +94,10 @@ function createTeam() {
 
 <template>
 
-  <Card>
-    <CardContent>
+  <form @submit.prevent="submitForm">
+    <Card>
+      <CardContent>
 
-      <form @submit.prevent="submitForm">
         <FieldGroup>
           <Field>
             <FieldLabel for="pokemon-team-edit-name">
@@ -110,9 +111,6 @@ function createTeam() {
                 :placeholder="currentTeam?.name ? currentTeam.name : ''"
                 @keyup.enter="submitForm"
               />
-              <InputGroupAddon>
-                <SearchIcon />
-              </InputGroupAddon>
               <InputGroupAddon align="inline-end">
                 <InputGroupButton>Rechercher par nom</InputGroupButton>
               </InputGroupAddon>
@@ -134,28 +132,25 @@ function createTeam() {
                 :placeholder="currentTeam?.subname ? currentTeam.subname : ''"
                 @keyup.enter="submitForm"
               />
-              <InputGroupAddon>
-                <SearchIcon />
-              </InputGroupAddon>
               <InputGroupAddon align="inline-end">
                 <InputGroupButton>Rechercher par identifiant</InputGroupButton>
               </InputGroupAddon>
             </InputGroup>
           </Field>
         </FieldGroup>
-      </form>
 
-    </CardContent>
+      </CardContent>
 
-    <CardFooter>
-      <br>
-      <div v-if="error" class="error">{{ error }}</div>
-      <BaseButton type="submit" :disabled="loading">
-        {{ loading ? 'Création en cours...' : props.buttonText }}
-      </BaseButton>
-    </CardFooter>
+      <CardFooter>
+        <br>
+        <div v-if="error" class="error">{{ error }}</div>
+        <BaseButton type="submit" :disabled="loading">
+          {{ loading ? 'Création en cours...' : props.buttonText }}
+        </BaseButton>
+      </CardFooter>
 
-  </Card>
+    </Card>
+  </form>
 
 </template>
 

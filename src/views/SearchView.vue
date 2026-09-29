@@ -23,18 +23,22 @@ function handleSearch(newResult: PokemonInterface | null) {
 </script>
 
 <template>
+  
   <main>
+
     <BaseButtonBack />
     <h1>Recherche Pokémon</h1>
     <PokemonSearch
       :id="(route.query.id as string)"
       :name="(route.query.name as string)"
       @search="(event) => { handleSearch(event) }" />
-
+    <br>
     <PokemonDetailSimple
       v-if="pokemonResult && pokemonResult.id"
       :pokemon="pokemonResult" />
+  
   </main>
+
 </template>
 
 <style scoped>
