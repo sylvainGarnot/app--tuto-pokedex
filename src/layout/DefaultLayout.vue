@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import TheHeader from '@/components/ui/TheHeader.vue'
-import TheFooter from '@/components/ui/TheFooter.vue'
+import TheHeader from '@/layout/TheHeader.vue'
+import TheFooter from '@/layout/TheFooter.vue'
 </script>
 
 <style scoped lang="scss">
