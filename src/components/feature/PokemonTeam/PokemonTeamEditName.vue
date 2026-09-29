@@ -5,6 +5,10 @@ import type { TeamInterface } from '@/types/team'
 import { useTeamStore } from '@/stores/teamStore'
 import BaseButton from '@/components/base/BaseButton.vue'
 
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
+import { SearchIcon } from '@lucide/vue'
+
 const teamStore = useTeamStore()
 
 
@@ -88,28 +92,71 @@ function createTeam() {
 </script>
 
 <template>
-  <main>
-    <div class="form-container">
-      <form @submit.prevent="submitForm" class="team-form">
-        <div class="form-group">
-          <label for="team-name">Nom de l'équipe</label>
-          <input id="team-name" v-model="teamName" type="text" :placeholder="currentTeam?.name ? currentTeam.name : 'Ex: Équipe de feu'"
-            class="input" />
-        </div>
-        <div class="form-group">
-          <label for="team-subname">Sous-titre (optionnel)</label>
-          <input id="team-subname" v-model="teamSubname" type="text" :placeholder="currentTeam?.subname ? currentTeam.subname : 'Ex: sous-titre de l\'équipe'"
-            class="input" />
-        </div>
 
-        <div v-if="error" class="error">{{ error }}</div>
+  <Card>
+    <CardContent>
 
-        <BaseButton type="submit" :disabled="loading">
-          {{ loading ? 'Création en cours...' : props.buttonText }}
-        </BaseButton>
+      <form @submit.prevent="submitForm">
+        <FieldGroup>
+          <Field>
+            <FieldLabel for="pokemon-team-edit-name">
+              Nom de l'équipe
+            </FieldLabel>
+            <InputGroup>
+              <InputGroupInput 
+                id="pokemon-team-edit-name"
+                v-model="teamName"
+                type="text"
+                :placeholder="currentTeam?.name ? currentTeam.name : ''"
+                @keyup.enter="submitForm"
+              />
+              <InputGroupAddon>
+                <SearchIcon />
+              </InputGroupAddon>
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton>Rechercher par nom</InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
+        </FieldGroup>
+
+        <br>
+        <FieldGroup>
+          <Field>
+            <FieldLabel for="pokemon-team-edit-subname">
+              Sous-titre (optionnel)
+            </FieldLabel>
+            <InputGroup>
+              <InputGroupInput 
+                id="pokemon-team-edit-subname"
+                v-model="teamSubname"
+                type="text"
+                :placeholder="currentTeam?.subname ? currentTeam.subname : ''"
+                @keyup.enter="submitForm"
+              />
+              <InputGroupAddon>
+                <SearchIcon />
+              </InputGroupAddon>
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton>Rechercher par identifiant</InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
+        </FieldGroup>
       </form>
-    </div>
-  </main>
+
+    </CardContent>
+
+    <CardFooter>
+      <br>
+      <div v-if="error" class="error">{{ error }}</div>
+      <BaseButton type="submit" :disabled="loading">
+        {{ loading ? 'Création en cours...' : props.buttonText }}
+      </BaseButton>
+    </CardFooter>
+
+  </Card>
+
 </template>
 
 <style scoped>
