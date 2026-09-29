@@ -4,6 +4,8 @@ import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant';
 
+import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
+
 
 // PROPS
 const props = defineProps({
@@ -76,23 +78,18 @@ async function searchByGeneration() {
 </script>
 
 <template>
-  <div class="search-container">
-    <div class="input-group">
-      <label for="generation">Génération</label>
-      <select
-        id="generation"
-        v-model="selectedGeneration"
-        class="search-input"
-      >
-        <option value="">Sélectionnez une génération...</option>
-        <option v-for="gen in generations" :key="gen" :value="gen">
-          {{ gen }}
-        </option>
-      </select>
-    </div>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-if="loading" class="load">Chargement...</div>
-  </div>
+
+  <NativeSelect v-model="selectedGeneration">
+    <NativeSelectOption value="">
+      Sélectionnez une génération...
+    </NativeSelectOption>
+    <NativeSelectOption v-for="g in generations" :key="g" :value="g">
+      Génération n°{{ g }}
+    </NativeSelectOption>
+  </NativeSelect>
+
+  <div v-if="error" class="error">{{ error }}</div>
+  <div v-if="loading" class="load">Chargement...</div>
 </template>
 
 <style scoped>

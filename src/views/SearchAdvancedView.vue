@@ -53,13 +53,13 @@ const results = computed(() => {
 
       <div class="search-section">
         <div class="search-content">
-          <PokemonSearchAdvancedSearchByType
+          <!-- <PokemonSearchAdvancedSearchByType
             :type1="route.query.type1 ? route.query.type1 as string : ''"
             :type2="route.query.type2 ? route.query.type2 as string : ''"
             @update:type1="(input: string) => router.push({ query: { type1: input, type2: route.query.type2, generation: route.query.generation } })"
             @update:type2="(input: string) => router.push({ query: { type1: route.query.type1, type2: input, generation: route.query.generation } })"
             @search="(value: PokemonInterface[]) => resultsByType = value"
-          />
+          /> -->
         </div>
 
         <div class="search-content">
