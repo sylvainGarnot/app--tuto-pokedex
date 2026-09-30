@@ -3,7 +3,7 @@ import { onMounted, computed } from 'vue'
 import BaseRouterLink from '@/components/base/BaseRouterLink.vue'
 import { formatDate } from '@/utils/dateFormatter'
 import type { TeamInterface } from '@/types/team'
-import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
+import PokemonTeamPokemons from '@/components/feature/PokemonTeam/PokemonTeamPokemons.vue'
 import { useTeamStore } from '@/stores/teamStore'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -38,35 +38,24 @@ onMounted(() => {
   <Card>
     <CardContent>
 
-    <!-- Informations de l'équipe -->
-    <div class="team-info" v-if="currentTeam">
-      <div class="team-info-header">
-        <div>
-          <h1>Équipe {{ currentTeam.name }}</h1>
-          <p v-if="currentTeam.subname"><strong>Sous-titre :</strong> {{ currentTeam.subname }}</p>
-          <p><strong>Créée le :</strong> {{ formatDate(currentTeam.createdAt) }}</p>
-          <p v-if="currentTeam.updatedAt"><strong>Dernier update :</strong> {{ formatDate(currentTeam.updatedAt) }}</p>
-        </div>
-        <BaseRouterLink v-if="currentTeam?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: currentTeam.id } }" class="update-button">
-          ✏️
-        </BaseRouterLink>
-      </div>
-    </div>
+      <!-- Informations de l'équipe -->
+      <div class="team-info" v-if="currentTeam">
+        <div class="team-info-header">
+          <div>
+            <h1>Équipe {{ currentTeam.name }}</h1>
+            <p v-if="currentTeam.subname"><strong>Sous-titre :</strong> {{ currentTeam.subname }}</p>
+            <p><strong>Créée le :</strong> {{ formatDate(currentTeam.createdAt) }}</p>
+            <p v-if="currentTeam.updatedAt"><strong>Dernier update :</strong> {{ formatDate(currentTeam.updatedAt) }}</p>
+          </div>
 
-    <!-- Équipe actuelle -->
-    <div class="team-section" v-if="currentTeam">
-      <h2>Mon équipe ({{ currentTeam.pokemons.length }}/ 6)</h2>
-
-      <div class="pokemons-container">
-        <div v-if="currentTeam.pokemons.length === 0" class="empty-message">
-          Aucun Pokémon dans l'équipe
-        </div>
-
-        <div v-for="pokemon in currentTeam.pokemons" :key="pokemon.id" class="pokemon-wrapper">
-          <PokemonDetailSimple :pokemon="pokemon" />
+          <BaseRouterLink v-if="currentTeam?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: currentTeam.id } }" class="update-button">
+            ✏️
+          </BaseRouterLink>
         </div>
       </div>
-    </div>
+
+      <!-- Équipe actuelle -->
+      <PokemonTeamPokemons :team="currentTeam" />
 
     </CardContent>
   </Card>
@@ -122,36 +111,4 @@ onMounted(() => {
   border-color: #2e7d32;
 }
 
-.team-section {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-}
-
-
-.pokemons-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.empty-message {
-  text-align: center;
-  color: #999;
-  padding: 2rem 1rem;
-  font-size: 0.95rem;
-}
-
-.pokemon-wrapper {
-  position: relative;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-:deep(.pokemon-wrapper .result) {
-  flex: 1;
-  margin-top: 0;
-  margin-bottom: 0;
-}
 </style>

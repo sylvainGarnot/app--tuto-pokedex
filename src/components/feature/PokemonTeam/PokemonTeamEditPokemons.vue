@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
-import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
-import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
+
 import type { PokemonInterface } from '@/types/pokemon'
 import type { TeamInterface } from '@/types/team'
+
+import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
+import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
+import PokemonTeamPokemons from '@/components/feature/PokemonTeam/PokemonTeamPokemons.vue'
+
 import BaseButton from '@/components/base/BaseButton.vue'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -101,6 +105,7 @@ function removePokemon(pokemonId: number) {
         <div v-if="alertMessage" class="alert-message" :class="{ success: alertMessage.includes('ajouté') }">
           {{ alertMessage }}
         </div>
+        
         <div v-if="searchResult" class="search-result-wrapper">
           <BaseButton @click="addPokemonToTeam">
             Ajouter
@@ -109,22 +114,7 @@ function removePokemon(pokemonId: number) {
       </div>
 
       <!-- Section équipe actuelle -->
-      <div class="team-section">
-        <h2>Mon équipe ({{ currentTeam.pokemons.length }}/6)</h2>
-
-        <div class="pokemons-container">
-          <div v-if="currentTeam.pokemons.length === 0" class="empty-message">
-            Aucun Pokémon dans l'équipe
-          </div>
-
-          <div v-for="pokemon in currentTeam.pokemons" :key="pokemon.id" class="pokemon-item">
-            <PokemonDetailSimple :pokemon="pokemon" />
-            <BaseButton @click="removePokemon(pokemon.id)" variant="destructive">
-              ✕ Retirer
-            </BaseButton>
-          </div>
-        </div>
-      </div>
+      <PokemonTeamPokemons :team="currentTeam" editable @removePokemon="removePokemon" />
 
     </CardContent>
   </Card>
@@ -171,37 +161,6 @@ function removePokemon(pokemonId: number) {
   margin-top: 0;
   margin-bottom: 0;
   min-width: 200px;
-}
-
-.team-section {
-  background-color: white;
-  border-radius: 8px;
-  min-width: 0;
-}
-
-.pokemons-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.empty-message {
-  text-align: center;
-  color: #999;
-  padding: 2rem 1rem;
-  font-size: 0.95rem;
-}
-
-.pokemon-item {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-:deep(.pokemon-item .result) {
-  flex: 1;
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 </style>
