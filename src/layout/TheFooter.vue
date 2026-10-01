@@ -3,8 +3,7 @@
 
 <template>
   <footer>
-    <p>&copy; 2027 Pokédex. All rights reserved.</p>
-    <p>Author: Sylvain GARNOT</p>
+    <p>&copy; 2027 Pokédex | All rights reserved | Sylvain GARNOT</p>
   </footer>
 </template>
 

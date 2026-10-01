@@ -5,7 +5,7 @@ import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 import { getPokemon } from '@/composables/usePokemon'
 import { POKEAPI_URL } from '@/constant'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Field, FieldGroup, FieldLabel, FieldDescription } from '@/components/ui/field'
 
 // PROPS
 const props = defineProps({
