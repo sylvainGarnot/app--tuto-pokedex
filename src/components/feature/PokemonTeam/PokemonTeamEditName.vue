@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onUpdated, ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import { Card, CardContent } from '@/components/ui/card'
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
 import BaseButton from '@/components/base/BaseButton.vue'
 
@@ -25,76 +25,99 @@ const emit = defineEmits<{
   cancel: []
 }>()
 
-
 // DATA
-const nameInput = ref(props.name ?? '')
-const subnameInput = ref(props.subname ?? '')
+const nameInput = ref('')
+const subnameInput = ref('')
+const nameError = ref('')
 
+// Synchronise les inputs uniquement lorsque les props changent.
+watch(
+  () => [props.name, props.subname],
+  ([name, subname]) => {
+    nameInput.value = name ?? ''
+    subnameInput.value = subname ?? ''
+    nameError.value = ''
+  },
+  {
+    immediate: true,
+  },
+)
 
-// ON UPDATED
-onUpdated(() => {
-  initInput()
-})
-
-
-// FUNCTION
-function initInput() {
-  nameInput.value = props.name ?? ''
-  subnameInput.value = props.subname ?? ''
+// FUNCTIONS
+function validateName() {
+  if (!nameInput.value.trim()) {
+    nameError.value = 'Le nom de l’équipe est obligatoire.'
+    return false
+  }
+  nameError.value = ''
+  return true
 }
 
 function handleSubmit() {
-  emit('submit', nameInput.value, subnameInput.value)
+  if (!validateName()) {
+    return
+  }
+
+  emit('submit', nameInput.value.trim(), subnameInput.value.trim())
 }
 
 function handleCancel() {
-  initInput()
+  nameInput.value = props.name ?? ''
+  subnameInput.value = props.subname ?? ''
+  nameError.value = ''
   emit('cancel')
 }
-
 </script>
 
 <template>
-
   <Card>
     <CardContent>
-
-      <form @submit.prevent="handleSubmit()">
+      <form @submit.prevent="handleSubmit">
         <FieldGroup>
           <FieldSet>
             <FieldGroup>
-              <Field data-invalid>
+
+              <!-- Nom obligatoire -->
+              <Field :data-invalid="nameError ? true : undefined" >
                 <FieldLabel for="pokemon-team-edit-name">
                   Nom de l'équipe
                 </FieldLabel>
                 <InputGroup>
-                  <InputGroupInput 
+                  <InputGroupInput
                     id="pokemon-team-edit-name"
                     v-model="nameInput"
                     type="text"
-                    :placeholder="nameInput"
-                    @keyup.enter="handleSubmit()"
-                    required
+                    placeholder="Ex. Équipe Kanto"
+                    @input="nameError = ''"
                   />
+
                   <InputGroupAddon align="inline-end">
-                    <InputGroupButton>Rechercher par nom</InputGroupButton>
+                    <InputGroupButton type="button">
+                      Nom de l'équipe
+                    </InputGroupButton>
                   </InputGroupAddon>
                 </InputGroup>
+                <FieldError v-if="nameError">
+                  {{ nameError }}
+                </FieldError>
               </Field>
+
+              <!-- Sous-titre facultatif -->
               <Field>
                 <FieldLabel for="pokemon-team-edit-subname">
                   Sous-titre (optionnel)
                 </FieldLabel>
                 <InputGroup>
-                  <InputGroupInput 
+                  <InputGroupInput
                     id="pokemon-team-edit-subname"
                     v-model="subnameInput"
                     type="text"
-                    :placeholder="subnameInput"
-                    @keyup.enter="handleSubmit()"
+                    placeholder="Ex. Équipe pour la Ligue"
                   />
                   <InputGroupAddon align="inline-end">
-                    <InputGroupButton>Rechercher par identifiant</InputGroupButton>
+                    <InputGroupButton type="button">
+                      Sous-titre (optionnel)
+                    </InputGroupButton>
                   </InputGroupAddon>
                 </InputGroup>
               </Field>
@@ -102,19 +125,20 @@ function handleCancel() {
           </FieldSet>
         </FieldGroup>
 
-        <br>
-        <BaseButton @click="handleCancel()" variant="outline">
-          {{ props.cancelButtonText }}
-        </BaseButton>
-        <BaseButton @click="handleSubmit()">
-          {{ props.submitButtonText }}
-        </BaseButton>
-      </form>
+        <div class="mt-6 flex gap-3">
+          <BaseButton
+            type="button"
+            variant="outline"
+            @click="handleCancel"
+          >
+            {{ cancelButtonText }}
+          </BaseButton>
 
+          <BaseButton type="submit">
+            {{ submitButtonText }}
+          </BaseButton>
+        </div>
+      </form>
     </CardContent>
   </Card>
-
 </template>
-
-<style scoped>
-</style>

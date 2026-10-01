@@ -56,8 +56,18 @@ watch(inputName, (newValue) => {
 
 
 // FONCTIONS
-function searchPokemon() {
+function validate() {
+  if (!inputName.value.trim() && !inputId.value.trim()) {
+    error.value = 'Le nom du Pokémon ou l\'ID est obligatoire.'
+    return false
+  }
   error.value = ''
+  return true
+}
+function searchPokemon() {
+  if (!validate()) {
+    return
+  }
 
   if (!inputId.value && !inputName.value) {
     error.value = 'Veuillez entrer un ID ou un nom'
@@ -94,7 +104,7 @@ function searchPokemon() {
         <FieldGroup>
           <FieldSet>
             <FieldGroup>
-              <Field>
+              <Field :data-invalid="error ? true : undefined" >
                 <FieldLabel for="pokemon-search-by-id">
                   ID du Pokémon
                 </FieldLabel>
@@ -105,6 +115,7 @@ function searchPokemon() {
                     type="text"
                     placeholder="Entrez l'ID..."
                     @keyup.enter="searchPokemon"
+                    @input="error = ''"
                   />
                   <InputGroupAddon>
                     <SearchIcon />
@@ -114,7 +125,7 @@ function searchPokemon() {
                   </InputGroupAddon>
                 </InputGroup>
               </Field>
-              <Field>
+              <Field :data-invalid="error ? true : undefined" >
                 <FieldLabel for="pokemon-search-by-name">
                   Nom du Pokémon
                 </FieldLabel>
@@ -125,6 +136,7 @@ function searchPokemon() {
                     type="text"
                     placeholder="Entrez le nom..."
                     @keyup.enter="searchPokemon"
+                    @input="error = ''"
                   />
                   <InputGroupAddon>
                     <SearchIcon />
