@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
 import { SearchIcon } from '@lucide/vue'
 
-import { FieldGroup, FieldSet, Field, FieldLabel } from '@/components/ui/field'
+import { FieldGroup, FieldSet, Field, FieldLabel, FieldError } from '@/components/ui/field'
 
 // DATA
 const inputId = ref('')

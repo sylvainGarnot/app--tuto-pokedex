@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { toTeam, type TeamInterface } from '@/types/team'
 import { BDD_URL } from '@/constant'
+import { toast } from 'vue-sonner'
 
 export const useTeamStore = defineStore('team', () => {
 
@@ -39,6 +40,14 @@ export const useTeamStore = defineStore('team', () => {
         updatedAt: new Date().toISOString(),
       })
       .then((response) => {
+        
+        toast.success('Équipe créée', {
+          description: new Date().toLocaleString(),
+          action: {
+            label: 'Fermer',
+          },
+        })
+
         teams.value.push(toTeam(response.data))
       })
       .catch(() => {
@@ -53,6 +62,14 @@ export const useTeamStore = defineStore('team', () => {
         updatedAt: new Date().toISOString(),
       })
       .then((response) => {
+        
+        toast.success('Équipe mise à jour', {
+          description: new Date().toLocaleString(),
+          action: {
+            label: 'Fermer',
+          },
+        })
+
         const index = teams.value.findIndex(t => t.id === team.id)
         if (index !== -1) {
           teams.value[index] = toTeam(response.data)
@@ -68,11 +85,20 @@ export const useTeamStore = defineStore('team', () => {
   async function apiDeleteTeam(teamId: string) {
     return axios.delete(BDD_URL + `/teams/${teamId}`)
       .then(() => {
+        
+        setTimeout(() => 
+          toast.success('Équipe supprimée', {
+            description: new Date().toLocaleString(),
+            action: {
+              label: 'Fermer',
+            },
+          }), 250)
+        
         teams.value = teams.value.filter(team => team.id !== teamId)
       })
-      .catch(error => {
-        console.error('Erreur:', error)
-        throw error
+      .catch(() => {
+        // console.error('Erreur:', error)
+        // throw error
       })
   }
 
