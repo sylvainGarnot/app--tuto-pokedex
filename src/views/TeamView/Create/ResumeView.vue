@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import { useRouter } from 'vue-router'
-import type { TeamInterface } from '@/types/team'
+import { createEmptyTeam, type TeamInterface } from '@/types/team'
 
 import PokemonTeamDetail from '@/components/feature/PokemonTeam/PokemonTeamDetail.vue'
 
@@ -23,6 +23,9 @@ const handleConfirm = () => {
   } as TeamInterface)
   .then(() => {
     // Success handling
+    teamStore.setCurrentTeam({
+      ...createEmptyTeam(),
+    })
     router.push({ name: 'home' })
   })
   .catch(() => {
@@ -38,7 +41,7 @@ const handleConfirm = () => {
 
 <template>
   <main>
-    <PokemonTeamDetail v-if="currentTeam?.id" :team="currentTeam" isReadonly />
+    <PokemonTeamDetail v-if="currentTeam" :team="currentTeam" isReadonly />
 
     <br>
     <BaseRouterLink :to="{ name: 'home' }" variant="outline">

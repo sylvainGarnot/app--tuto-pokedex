@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { createEmptyTeam, type TeamInterface } from '@/types/team'
 import { useTeamStore } from '@/stores/teamStore'
@@ -14,6 +14,13 @@ const currentTeam = computed(() => teamStore.currentTeam as TeamInterface)
 const router = useRouter()
 
 
+onMounted(() => {
+  if (!teamStore.currentTeam) {
+    teamStore.setCurrentTeam(createEmptyTeam())
+  }
+})
+
+
 // FUNCTION
 function updateTeamName(name: string, subname: string) {
   if (!name) {
@@ -21,7 +28,7 @@ function updateTeamName(name: string, subname: string) {
     return
   }
   teamStore.setCurrentTeam({
-    ...createEmptyTeam(),
+    ...currentTeam.value,
     name,
     subname,
   })

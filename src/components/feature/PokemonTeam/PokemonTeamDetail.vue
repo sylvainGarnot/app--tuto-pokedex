@@ -19,7 +19,7 @@ const props = defineProps<{
 
 <template>
 
-  <Card v-if="team?.id">
+  <Card v-if="team">
     <CardContent>
 
       <!-- Informations de l'équipe -->
