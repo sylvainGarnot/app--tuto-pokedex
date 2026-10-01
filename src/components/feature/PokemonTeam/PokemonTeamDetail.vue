@@ -28,8 +28,8 @@ const props = defineProps<{
           <div>
             <h1>Équipe {{ team.name }}</h1>
             <p v-if="team.subname"><strong>Sous-titre :</strong> {{ team.subname }}</p>
-            <!-- <p><strong>Créée le :</strong> {{ formatDate(team?.createdAt) }}</p> -->
-            <!-- <p v-if="team.updatedAt"><strong>Dernier update :</strong> {{ formatDate(team?.updatedAt) }}</p> -->
+            <p v-if="team.createdAt"><strong>Créée le :</strong> {{ formatDate(team.createdAt) }}</p>
+            <p v-if="team.updatedAt"><strong>Dernier update :</strong> {{ formatDate(team.updatedAt) }}</p>
           </div>
 
           <BaseRouterLink v-if="team?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: team.id } }" class="update-button">

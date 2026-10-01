@@ -9,10 +9,13 @@ const teamStore = useTeamStore()
 const pokemonTypeStore = usePokemonTypeStore()
 
 onMounted(async () => {
-  teamStore.apiGetTeams()
+  if (teamStore.teams.length === 0) {
+    teamStore.apiGetTeams()
+  }
 
-  console.log('Mounted HomeView, fetching teams...')
-  await pokemonTypeStore.apiGetTypes()
+  if (pokemonTypeStore.types.length === 0) {
+    pokemonTypeStore.apiGetTypes()
+  }
 })
 </script>
 

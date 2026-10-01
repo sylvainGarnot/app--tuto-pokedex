@@ -33,7 +33,11 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   async function apiPostTeam(team: TeamInterface) {
-    return axios.post(BDD_URL + '/teams', team)
+    return axios.post(BDD_URL + '/teams', {
+        ...team,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      })
       .then((response) => {
         teams.value.push(toTeam(response.data))
       })
@@ -44,24 +48,20 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   async function apiPutTeam(team: TeamInterface) {
-    try {
-      await fetch(BDD_URL + `/teams/${team.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(team),
+    return axios.put(BDD_URL + `/teams/${team.id}`, {
+        ...team,
+        updatedAt: new Date().toISOString(),
       })
-
-      const index = teams.value.findIndex(t => t.id === team.id)
-      if (index !== -1) {
-        teams.value[index] = { ...team }
-      }
-    } catch {
-      // error handling
-    } finally {
-      // loading false
-    }
+      .then((response) => {
+        const index = teams.value.findIndex(t => t.id === team.id)
+        if (index !== -1) {
+          teams.value[index] = toTeam(response.data)
+        }
+      })
+      .catch(() => {
+        // console.error('Erreur:', error)
+        // throw error
+      })
   }
 
 
