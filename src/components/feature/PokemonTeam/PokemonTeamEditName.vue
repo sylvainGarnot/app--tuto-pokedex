@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onUpdated, ref } from 'vue'
 
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
 import BaseButton from '@/components/base/BaseButton.vue'
@@ -43,8 +43,13 @@ function initInput() {
   subnameInput.value = props.subname ?? ''
 }
 
+function handleSubmit() {
+  emit('submit', nameInput.value, subnameInput.value)
+}
+
 function handleCancel() {
   initInput()
+  emit('cancel')
 }
 
 </script>
@@ -54,58 +59,59 @@ function handleCancel() {
   <Card>
     <CardContent>
 
-      <FieldGroup>
-        <Field>
-          <FieldLabel for="pokemon-team-edit-name">
-            Nom de l'équipe
-          </FieldLabel>
-          <InputGroup>
-            <InputGroupInput 
-              id="pokemon-team-edit-name"
-              v-model="nameInput"
-              type="text"
-              :placeholder="nameInput"
-              @keyup.enter="emit('submit', nameInput, subnameInput)"
-            />
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton>Rechercher par nom</InputGroupButton>
-            </InputGroupAddon>
-          </InputGroup>
-        </Field>
-      </FieldGroup>
+      <form @submit.prevent="handleSubmit()">
+        <FieldGroup>
+          <FieldSet>
+            <FieldGroup>
+              <Field data-invalid>
+                <FieldLabel for="pokemon-team-edit-name">
+                  Nom de l'équipe
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput 
+                    id="pokemon-team-edit-name"
+                    v-model="nameInput"
+                    type="text"
+                    :placeholder="nameInput"
+                    @keyup.enter="handleSubmit()"
+                    required
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton>Rechercher par nom</InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
+              <Field>
+                <FieldLabel for="pokemon-team-edit-subname">
+                  Sous-titre (optionnel)
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput 
+                    id="pokemon-team-edit-subname"
+                    v-model="subnameInput"
+                    type="text"
+                    :placeholder="subnameInput"
+                    @keyup.enter="handleSubmit()"
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton>Rechercher par identifiant</InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
+            </FieldGroup>
+          </FieldSet>
+        </FieldGroup>
 
-      <br>
-      <FieldGroup>
-        <Field>
-          <FieldLabel for="pokemon-team-edit-subname">
-            Sous-titre (optionnel)
-          </FieldLabel>
-          <InputGroup>
-            <InputGroupInput 
-              id="pokemon-team-edit-subname"
-              v-model="subnameInput"
-              type="text"
-              :placeholder="subnameInput"
-              @keyup.enter="emit('submit', nameInput, subnameInput)"
-            />
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton>Rechercher par identifiant</InputGroupButton>
-            </InputGroupAddon>
-          </InputGroup>
-        </Field>
-      </FieldGroup>
+        <br>
+        <BaseButton @click="handleCancel()" variant="outline">
+          {{ props.cancelButtonText }}
+        </BaseButton>
+        <BaseButton @click="handleSubmit()">
+          {{ props.submitButtonText }}
+        </BaseButton>
+      </form>
 
     </CardContent>
-
-    <CardFooter>
-      <BaseButton @click="handleCancel()" variant="outline">
-        {{ props.cancelButtonText }}
-      </BaseButton>
-      <BaseButton @click="emit('submit', nameInput, subnameInput)">
-        {{ props.submitButtonText }}
-      </BaseButton>
-    </CardFooter>
-
   </Card>
 
 </template>

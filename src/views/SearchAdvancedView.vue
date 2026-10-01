@@ -72,16 +72,13 @@ const results = computed(() => {
 
 
     <br>
-    <Card>
+    <Card v-if="results && results.length > 0">
       <CardContent>
-        <div v-if="results && results.length > 0">
-          <h2>{{ results.length }} Pokémon trouvé(s)</h2>
-          <br>
-          <div class="pokemon-grid">
-            <PokemonDetailSquare v-for="pokemon in results" :key="pokemon.id" :pokemon="pokemon" />
-          </div>
+        <h2>{{ results.length }} Pokémon trouvé(s)</h2>
+        <br>
+        <div class="pokemon-grid">
+          <PokemonDetailSquare v-for="pokemon in results" :key="pokemon.id" :pokemon="pokemon" />
         </div>
-        <p v-else class="no-results">Aucun résultat</p>
       </CardContent>
     </Card>
 

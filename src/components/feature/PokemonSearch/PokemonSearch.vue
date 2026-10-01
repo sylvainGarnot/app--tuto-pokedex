@@ -4,9 +4,11 @@ import type { PokemonInterface } from '@/types/pokemon'
 import { getPokemon } from '@/composables/usePokemon'
 import BaseButton from '@/components/base/BaseButton.vue'
 
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
 import { SearchIcon } from '@lucide/vue'
+
+import { FieldGroup, FieldSet, Field, FieldLabel } from '@/components/ui/field'
 
 // DATA
 const inputId = ref('')
@@ -66,10 +68,15 @@ function searchPokemon() {
 
   getPokemon(inputId.value || inputName.value)
     .then((result) => {
-      emit('search', result)
+      if (result?.id) {
+        emit('search', result)      
+      } else {
+        error.value = 'Pokémon non trouvé'
+        emit('search', null)
+      }
     })
-    .catch(() => {
-      error.value = 'Erreur lors de la recherche'
+    .catch((error) => {
+      error.value = error.message || String(error)
       emit('search', null)
     })
     .finally(() => {
@@ -83,46 +90,66 @@ function searchPokemon() {
   <Card>
     <CardContent>
 
-      <InputGroup>
-        <InputGroupInput 
-          id="id"
-          v-model="inputId"
-          type="text"
-          placeholder="Entrez l'ID..."
-          @keyup.enter="searchPokemon"
-        />
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton>Search by ID</InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-      <br>
-      <InputGroup>
-        <InputGroupInput 
-          id="name"
-          v-model="inputName"
-          type="text"
-          placeholder="Entrez le nom..."
-          @keyup.enter="searchPokemon"
-        />
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton>Search by Name</InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
+      <form @submit.prevent="searchPokemon">
+        <FieldGroup>
+          <FieldSet>
+            <FieldGroup>
+              <Field>
+                <FieldLabel for="pokemon-search-by-id">
+                  ID du Pokémon
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput 
+                    id="id"
+                    v-model="inputId"
+                    type="text"
+                    placeholder="Entrez l'ID..."
+                    @keyup.enter="searchPokemon"
+                  />
+                  <InputGroupAddon>
+                    <SearchIcon />
+                  </InputGroupAddon>
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton>Search by ID</InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
+              <Field>
+                <FieldLabel for="pokemon-search-by-name">
+                  Nom du Pokémon
+                </FieldLabel>
+                <InputGroup>
+                  <InputGroupInput 
+                    id="name"
+                    v-model="inputName"
+                    type="text"
+                    placeholder="Entrez le nom..."
+                    @keyup.enter="searchPokemon"
+                  />
+                  <InputGroupAddon>
+                    <SearchIcon />
+                  </InputGroupAddon>
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton>Search by Name</InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
+            </FieldGroup>
+          </FieldSet>
+        <FieldError v-if="error">{{ error }}</FieldError>
+        </FieldGroup>
+
+
+        <br>
+        <BaseButton @click="searchPokemon" :disabled="loading">
+          {{ loading ? 'Recherche...' : 'Rechercher' }}
+        </BaseButton>
+        <br>
+
+        
+      </form>
 
     </CardContent>
-
-    <CardFooter>
-      <div v-if="error" class="error">{{ error }}</div>
-      <BaseButton @click="searchPokemon" :disabled="loading">
-        {{ loading ? 'Recherche...' : 'Rechercher' }}
-      </BaseButton>
-    </CardFooter>
   </Card>
 
 </template>
