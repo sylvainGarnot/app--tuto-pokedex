@@ -1,35 +1,20 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useTeamStore } from '@/stores/teamStore'
+import { ref } from 'vue'
+
 import BaseButton from '@/components/base/BaseButton.vue'
 import BaseAlertDialog from '@/components/base/BaseAlertDialog.vue'
 
-const router = useRouter()
-const teamStore = useTeamStore()
-const currentTeam = computed(() => teamStore.currentTeam)
-
-
 const showAlertDialog = ref(false)
-
-
-function deleteTeam() {
-  if (currentTeam.value) {
-    teamStore.apiDeleteTeam(currentTeam.value.id).then(() => {
-      router.push({ name: 'home' })
-    })
-  }
-}
 
 </script>
 
 <template>
   <main>
-    <BaseButton v-if="currentTeam" @click="showAlertDialog = true" variant="destructive">
+    <BaseButton @click="showAlertDialog = true" variant="destructive">
       Supprimer l'équipe
     </BaseButton>
 
-    <BaseAlertDialog v-if="showAlertDialog" v-model:open="showAlertDialog" @continue="deleteTeam">
+    <BaseAlertDialog v-if="showAlertDialog" v-model:open="showAlertDialog" @continue="$emit('confirm')">
       <template #title>
         Supprimer l'équipe
       </template>

@@ -1,62 +1,52 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
 import BaseRouterLink from '@/components/base/BaseRouterLink.vue'
 import { formatDate } from '@/utils/dateFormatter'
+
 import type { TeamInterface } from '@/types/team'
+
 import PokemonTeamPokemons from '@/components/feature/PokemonTeam/PokemonTeamPokemons.vue'
-import { useTeamStore } from '@/stores/teamStore'
 
 import { Card, CardContent } from '@/components/ui/card'
 
 
 // PROPS
 const props = defineProps<{
-  id: string,
+  team?: TeamInterface
   isReadonly?: boolean
 }>()
-
-
-// STORE
-const teamStore = useTeamStore()
-const currentTeam = computed(() => teamStore.currentTeam)
-
-
-// MOUNTED
-onMounted(() => {
-  const foundTeam = teamStore.teams.find((t: TeamInterface) => t.id === props.id)
-  if (foundTeam) {
-    teamStore.setCurrentTeam(foundTeam as TeamInterface)
-  } else {
-    teamStore.apiGetTeam(props.id)
-  }
-})
 
 </script>
 
 <template>
 
-  <Card>
+  <Card v-if="team?.id">
     <CardContent>
 
       <!-- Informations de l'équipe -->
-      <div class="team-info" v-if="currentTeam">
+      <div class="team-info">
         <div class="team-info-header">
           <div>
-            <h1>Équipe {{ currentTeam.name }}</h1>
-            <p v-if="currentTeam.subname"><strong>Sous-titre :</strong> {{ currentTeam.subname }}</p>
-            <p><strong>Créée le :</strong> {{ formatDate(currentTeam.createdAt) }}</p>
-            <p v-if="currentTeam.updatedAt"><strong>Dernier update :</strong> {{ formatDate(currentTeam.updatedAt) }}</p>
+            <h1>Équipe {{ team.name }}</h1>
+            <p v-if="team.subname"><strong>Sous-titre :</strong> {{ team.subname }}</p>
+            <!-- <p><strong>Créée le :</strong> {{ formatDate(team?.createdAt) }}</p> -->
+            <!-- <p v-if="team.updatedAt"><strong>Dernier update :</strong> {{ formatDate(team?.updatedAt) }}</p> -->
           </div>
 
-          <BaseRouterLink v-if="currentTeam?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: currentTeam.id } }" class="update-button">
+          <BaseRouterLink v-if="team?.id && !props.isReadonly" :to="{ name: 'team-update', params: { id: team.id } }" class="update-button">
             ✏️
           </BaseRouterLink>
         </div>
       </div>
 
       <!-- Équipe actuelle -->
-      <PokemonTeamPokemons :team="currentTeam" />
+      <PokemonTeamPokemons :pokemons="team.pokemons" />
 
+    </CardContent>
+  </Card>
+
+  <Card v-else>
+    <CardContent>
+      <p>Équipe non trouvée.</p>
     </CardContent>
   </Card>
 

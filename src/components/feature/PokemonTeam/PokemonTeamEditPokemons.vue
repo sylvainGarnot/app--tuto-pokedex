@@ -1,122 +1,86 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useTeamStore } from '@/stores/teamStore'
+import { ref, onUpdated } from 'vue'
 
 import type { PokemonInterface } from '@/types/pokemon'
-import type { TeamInterface } from '@/types/team'
 
 import PokemonSearch from '@/components/feature/PokemonSearch/PokemonSearch.vue'
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import PokemonTeamPokemons from '@/components/feature/PokemonTeam/PokemonTeamPokemons.vue'
-
 import BaseButton from '@/components/base/BaseButton.vue'
-
-import { Card, CardContent } from '@/components/ui/card'
-
-
-const teamStore = useTeamStore()
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 
 
-// DATA & STORE
-const currentTeam = computed(() => teamStore.currentTeam)
-const searchResult = ref<PokemonInterface | null>(null)
-const alertMessage = ref('')
-const loading = ref(false)
+// PROPS
+const props = defineProps<{
+  pokemons: PokemonInterface[]
+  submitButtonText: string
+  cancelButtonText: string
+}>()
+
+
+// EMITS
+const emit = defineEmits<{
+  submit: [
+    pokemons: PokemonInterface[],
+  ]
+  cancel: []
+}>()
+
+
+// DATA
+const pokemonFound = ref<PokemonInterface | null>(null)
+const pokemonsInput = ref([...props.pokemons] as PokemonInterface[])
+
+
+
+// ON UPDATED
+onUpdated(() => {
+  initInput()
+})
 
 
 // FUNCTIONS
-function handleSearchResult(result: PokemonInterface | null) {
-  searchResult.value = result
-  alertMessage.value = ''
+function initInput() {
+  pokemonsInput.value = [...props.pokemons] as PokemonInterface[]
 }
-
-
-function addPokemonToTeam() {
-  if (!searchResult.value || !currentTeam.value) return
-
-  if (currentTeam.value.pokemons.length >= 6) {
-    alertMessage.value = 'Équipe complète (6 Pokémons max)'
-    return
-  }
-
-  if (currentTeam.value.pokemons.some(p => p.id === searchResult.value?.id)) {
-    alertMessage.value = 'Ce Pokémon est déjà dans l\'équipe'
-    return
-  }
-
-  loading.value = true
-  alertMessage.value = ''
-  
-  const newTeamPokemons = [...currentTeam.value.pokemons, searchResult.value]
-  teamStore.apiPutTeam({
-    ...currentTeam.value,
-    pokemons: newTeamPokemons as PokemonInterface[],
-  } as TeamInterface)
-  .then(() => {
-    alertMessage.value = `${searchResult?.value?.name} ajouté à l'équipe!`
-  })
-  .catch(() => {
-    // Error handling
-  })
-  .finally(() => {
-    loading.value = false
-    setTimeout(() => {
-      alertMessage.value = ''
-    }, 2500)
-  })
-}
-
-function removePokemon(pokemonId: number) {
-  if (!currentTeam.value) return
-  loading.value = true
-  alertMessage.value = ''
-
-  const newTeamPokemons = currentTeam.value.pokemons.filter(p => p.id !== pokemonId)
-  teamStore.apiPutTeam({
-    ...currentTeam.value,
-    pokemons: newTeamPokemons as PokemonInterface[],
-  } as TeamInterface)
-    .then(() => {
-      alertMessage.value = `Pokémon retiré de l'équipe`
-    })
-    .catch(() => {
-      // Error handling
-    })
-    .finally(() => {
-      loading.value = false
-      setTimeout(() => {
-        alertMessage.value = ''
-      }, 2500)
-    })
+function handleCancel() {
+  initInput()
 }
 </script>
 
 <template>
-  <Card v-if="currentTeam">
+  <Card>
     <CardContent class="add-pokemon-container">
 
       <!-- Section recherche -->
       <div class="search-section">
         <h2>Ajouter un Pokémon</h2>
         
-        <PokemonSearch @search="handleSearchResult" />
-        <PokemonDetailSimple v-if="searchResult" :pokemon="searchResult" />
+        <PokemonSearch @search="(data: PokemonInterface | null) => pokemonFound = data as PokemonInterface | null" />
+        <PokemonDetailSimple v-if="pokemonFound" :pokemon="pokemonFound" />
         
-        <div v-if="alertMessage" class="alert-message" :class="{ success: alertMessage.includes('ajouté') }">
-          {{ alertMessage }}
-        </div>
-        
-        <div v-if="searchResult" class="search-result-wrapper">
-          <BaseButton @click="addPokemonToTeam">
-            Ajouter
-          </BaseButton>
+        <div v-if="pokemonFound" class="search-result-wrapper">
+          <BaseButton @click="pokemonsInput.push(pokemonFound as PokemonInterface)">Ajouter</BaseButton>
         </div>
       </div>
 
-      <!-- Section équipe actuelle -->
-      <PokemonTeamPokemons :team="currentTeam" editable @removePokemon="removePokemon" />
+      <!-- Section équipe input -->
+      <PokemonTeamPokemons
+        :pokemons="pokemonsInput"
+        editable
+        @removePokemon="(pokemon: PokemonInterface) => pokemonsInput = pokemonsInput.filter(p => p.id !== pokemon.id)" />
 
     </CardContent>
+
+    <CardFooter>
+      <BaseButton @click="handleCancel()" variant="outline">
+        {{ props.cancelButtonText }}
+      </BaseButton>
+      <BaseButton @click="emit('submit', pokemonsInput)">
+        {{ props.submitButtonText }}
+      </BaseButton>
+    </CardFooter>
+
   </Card>
 </template>
 
@@ -130,20 +94,6 @@ function removePokemon(pokemonId: number) {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-}
-
-
-.alert-message {
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #fee;
-  color: #c33;
-  font-weight: 500;
-
-  &.success {
-    background-color: #e8f5e9;
-    color: #2e7d32;
   }
 }
 

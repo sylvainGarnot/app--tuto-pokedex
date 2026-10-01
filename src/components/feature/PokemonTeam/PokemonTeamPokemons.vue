@@ -1,31 +1,38 @@
 <script setup lang="ts">
-import type { TeamInterface } from '@/types/team'
+import type { PokemonInterface } from '@/types/pokemon'
 
 import PokemonDetailSimple from '@/components/feature/PokemonDetail/PokemonDetailSimple.vue'
 import BaseButton from '@/components/base/BaseButton.vue'
 
+// PROPS
 defineProps<{
-  team?: TeamInterface,
+  pokemons?: PokemonInterface[],
   editable?: boolean
+}>()
+
+
+// EMITS
+const emit = defineEmits<{
+  removePokemon: [PokemonInterface]
 }>()
 </script>
 
 <template>
 
-    <div class="team-section" v-if="team">
-      <h2>Mon équipe ({{ team.pokemons.length }}/ 6)</h2>
+    <div class="team-section" v-if="pokemons">
+      <h2>Mon équipe ({{ pokemons.length }}/ 6)</h2>
 
       <div class="pokemons-container">
-        <div v-if="team.pokemons.length === 0" class="empty-message">
+        <div v-if="pokemons.length === 0" class="empty-message">
           Aucun Pokémon dans l'équipe
         </div>
 
-        <div v-for="pokemon in team.pokemons" :key="pokemon.id" class="pokemon-wrapper">
+        <div v-for="pokemon in pokemons" :key="pokemon.id" class="pokemon-wrapper">
 
           <PokemonDetailSimple :pokemon="pokemon" />
 
           <!-- editable -->
-          <BaseButton v-if="editable" @click="$emit('removePokemon', pokemon.id)" variant="destructive">
+          <BaseButton v-if="editable" @click="emit('removePokemon', pokemon)" variant="destructive">
             ✕ Retirer
           </BaseButton>
           <br>
