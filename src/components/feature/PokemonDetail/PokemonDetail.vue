@@ -5,6 +5,7 @@ import { usePokemonTypeStore } from '@/stores/pokemonTypeStore'
 
 import { Badge} from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import PokemonStatsChart from '@/components/feature/PokemonDetail/PokemonStatsChart.vue'
 
 // PROPS
 defineProps<{
@@ -27,9 +28,6 @@ function getTypeIcons(name: string) {
 </script>
 
 <template>
-  <div v-if="loading" class="loading">Chargement...</div>
-
-  <div v-if="error" class="error">{{ error }}</div>
 
   <Card v-if="pokemon">
     <CardContent>
@@ -73,6 +71,15 @@ function getTypeIcons(name: string) {
             </div>
           </div>
         </div>
+
+        <!-- Stats -->
+        <PokemonStatsChart
+          :hp="pokemon?.stats?.hp"
+          :attack="pokemon?.stats?.attack"
+          :defense="pokemon?.stats?.defense"
+          :special-attack="pokemon?.stats?.specialAttack"
+          :special-defense="pokemon?.stats?.specialDefense"
+          :speed="pokemon?.stats?.speed" />
 
         <div class="product-footer">
           <slot name="footer"></slot>

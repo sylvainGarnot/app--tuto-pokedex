@@ -25,6 +25,12 @@ onMounted(async () => {
       <div class="left-section">
         <h1>Bienvenue</h1>
         <p>Explorez le monde des Pokémon</p>
+        <BaseChart :hp="45"
+          :attack="49"
+          :defense="49"
+          :special-attack="65"
+          :special-defense="65"
+          :speed="45" /> 
         <div class="buttons">
           <BaseRouterLink variant="outline" :to="{ name: 'search' }">Recherche simple</BaseRouterLink>
           <BaseRouterLink variant="outline" :to="{ name: 'search-advanced' }">Recherche avancée</BaseRouterLink>
