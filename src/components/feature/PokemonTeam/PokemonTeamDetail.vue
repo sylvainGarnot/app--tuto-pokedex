@@ -5,6 +5,7 @@ import { formatDate } from '@/utils/dateFormatter'
 import type { TeamInterface } from '@/types/team'
 
 import PokemonTeamPokemons from '@/components/feature/PokemonTeam/PokemonTeamPokemons.vue'
+import PokemonTeamStatsChart from '@/components/feature/PokemonTeam/PokemonTeamStatsChart.vue'
 
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -40,6 +41,9 @@ const props = defineProps<{
 
       <!-- Équipe actuelle -->
       <PokemonTeamPokemons :pokemons="team.pokemons" />
+
+      <!-- Statistiques de l'équipe -->
+      <PokemonTeamStatsChart :pokemons="team.pokemons" />
 
     </CardContent>
   </Card>
